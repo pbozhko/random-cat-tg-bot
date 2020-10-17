@@ -19,6 +19,7 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
     public SendPhoto handle(Update update) throws InterruptedException, ExecutionException, IOException {
 
         Cat cat = randomCatUrlService.getCat();
+
         return new SendPhoto()
             .setChatId(update.getMessage().getChatId())
             .setPhoto("It's a cat!", new URL(cat.getImageUrl()).openStream());
