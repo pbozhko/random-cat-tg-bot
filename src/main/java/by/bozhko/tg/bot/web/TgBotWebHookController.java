@@ -15,7 +15,7 @@ public class TgBotWebHookController {
     private final TelegramWebhookBot randomCatTgWebHookBot;
 
     @PostMapping("/api/v1/cat")
-    public BotApiMethod<?> onUpdateReceived(@RequestBody Update update) {
+    public final BotApiMethod<?> onUpdateReceived(@RequestBody Update update) {
 
         return randomCatTgWebHookBot.onWebhookUpdateReceived(update);
     }

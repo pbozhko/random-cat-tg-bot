@@ -17,7 +17,7 @@ public class JsonRandomCatDeserializer implements RandomCatDeserializer {
     @Override
     public List<RandomCat> deserialize(String source) throws IOException {
 
-        return objectMapper.readValue(source, new TypeReference<>() {
+        return objectMapper.readValue(source, new TypeReference<List<RandomCat>>() {
         });
     }
 }
