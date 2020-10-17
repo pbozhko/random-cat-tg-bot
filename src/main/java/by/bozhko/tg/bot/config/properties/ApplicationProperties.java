@@ -12,4 +12,7 @@ public class ApplicationProperties {
 
     @NotBlank
     private final String botToken;
+
+    @NotBlank
+    private final String catsApiKey;
 }

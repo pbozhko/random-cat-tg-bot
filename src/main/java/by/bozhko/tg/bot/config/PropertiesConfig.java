@@ -22,7 +22,8 @@ public class PropertiesConfig {
 
         return new ApplicationProperties(
             environment.getProperty("cats_api_endpoint"),
-            environment.getProperty("bot_token")
+            environment.getProperty("bot_token"),
+            environment.getProperty("cats_api_key")
         );
     }
 }

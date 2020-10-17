@@ -42,6 +42,7 @@ public class DefaultRandomCatUrlService implements RandomCatUrlService {
         Request request = new RequestBuilder()
             .setMethod(HttpConstants.Methods.GET)
             .setUrl(catsApiEndpoint)
+            .setHeader("x-api-key", applicationProperties.getCatsApiKey())
             .build();
 
         return asyncHttpClient.executeRequest(request).toCompletableFuture().get();
