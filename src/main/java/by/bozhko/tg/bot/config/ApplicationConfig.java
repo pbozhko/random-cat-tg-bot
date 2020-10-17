@@ -3,6 +3,9 @@ package by.bozhko.tg.bot.config;
 import by.bozhko.tg.bot.config.properties.ApplicationProperties;
 import by.bozhko.tg.bot.service.DefaultRandomCatUrlService;
 import by.bozhko.tg.bot.service.RandomCatUrlService;
+import by.bozhko.tg.bot.service.bot.DefaultTelegramUpdateRequestHandler;
+import by.bozhko.tg.bot.service.bot.RandomCatTgWebHookBot;
+import by.bozhko.tg.bot.service.bot.TelegramUpdateRequestHandler;
 import by.bozhko.tg.bot.service.converter.DefaultRandomCatConverter;
 import by.bozhko.tg.bot.service.converter.RandomCatConverter;
 import by.bozhko.tg.bot.util.JsonRandomCatDeserializer;
@@ -16,6 +19,7 @@ import org.asynchttpclient.Dsl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;
+import org.telegram.telegrambots.bots.TelegramWebhookBot;
 
 @Configuration
 @Validated
@@ -65,5 +69,17 @@ public class ApplicationConfig {
             randomCatConverter,
             applicationProperties
         );
+    }
+
+    @Bean
+    TelegramUpdateRequestHandler telegramUpdateRequestHandler(RandomCatUrlService randomCatUrlService) {
+
+        return new DefaultTelegramUpdateRequestHandler(randomCatUrlService);
+    }
+
+    @Bean
+    TelegramWebhookBot randomCatTgWebHookBot(TelegramUpdateRequestHandler telegramUpdateRequestHandler) {
+
+        return new RandomCatTgWebHookBot(telegramUpdateRequestHandler);
     }
 }

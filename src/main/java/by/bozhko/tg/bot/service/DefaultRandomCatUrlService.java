@@ -13,6 +13,7 @@ import org.asynchttpclient.RequestBuilder;
 import org.asynchttpclient.Response;
 import org.asynchttpclient.util.HttpConstants;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class DefaultRandomCatUrlService implements RandomCatUrlService {
     private final ApplicationProperties applicationProperties;
 
     @Override
-    public final Cat getCat() throws ExecutionException, InterruptedException, JsonProcessingException {
+    public final Cat getCat() throws ExecutionException, InterruptedException, IOException {
 
         String responseBody = getResponse(applicationProperties.getCatsApiEndpoint()).getResponseBody();
 
