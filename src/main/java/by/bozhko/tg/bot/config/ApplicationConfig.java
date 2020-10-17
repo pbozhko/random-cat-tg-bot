@@ -12,6 +12,7 @@ import by.bozhko.tg.bot.util.JsonRandomCatDeserializer;
 import by.bozhko.tg.bot.util.RandomCatDeserializer;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.DefaultAsyncHttpClient;
 import org.asynchttpclient.DefaultAsyncHttpClientConfig;
@@ -32,11 +33,11 @@ public class ApplicationConfig {
     }
 
     @Bean
-    AsyncHttpClient asyncHttpClient() {
+    AsyncHttpClient asyncHttpClient(ApplicationProperties applicationProperties) {
 
         DefaultAsyncHttpClientConfig config = Dsl.config()
-            .setReadTimeout(1000)
-            .setConnectTimeout(1000)
+            .setReadTimeout(applicationProperties.getReadTimeout())
+            .setConnectTimeout(applicationProperties.getConnectTimeout())
             .setMaxRedirects(3)
             .build();
 

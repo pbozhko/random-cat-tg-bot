@@ -24,6 +24,7 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
         } catch (TelegramApiException | InterruptedException | ExecutionException | IOException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 

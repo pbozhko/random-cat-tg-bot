@@ -8,6 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.util.Objects;
 
 @Configuration
 @RequiredArgsConstructor
@@ -23,7 +24,9 @@ public class PropertiesConfig {
         return new ApplicationProperties(
             environment.getProperty("cats_api_endpoint"),
             environment.getProperty("bot_token"),
-            environment.getProperty("cats_api_key")
+            environment.getProperty("cats_api_key"),
+            Integer.parseInt(Objects.requireNonNull(environment.getProperty("read_timeout"))),
+            Integer.parseInt(Objects.requireNonNull(environment.getProperty("connect_timeout")))
         );
     }
 }
