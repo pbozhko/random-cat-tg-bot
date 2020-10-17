@@ -19,7 +19,6 @@
         <lombok.version>1.18.16</lombok.version>
         <httpclient.version>2.12.1</httpclient.version>
         <junit.version>5.1.0</junit.version>
-        <heroku.version>3.0.3</heroku.version>
     </properties>
 
     <build>
@@ -37,14 +36,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>com.heroku.sdk</groupId>
-                <artifactId>heroku-maven-plugin</artifactId>
-                <version>${heroku.version}</version>
-                <configuration>
-                    <appName>${app.name}</appName>
-                </configuration>
             </plugin>
         </plugins>
     </build>
