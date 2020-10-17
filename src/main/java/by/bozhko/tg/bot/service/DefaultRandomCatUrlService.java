@@ -5,18 +5,21 @@ import by.bozhko.tg.bot.model.Cat;
 import by.bozhko.tg.bot.model.RandomCat;
 import by.bozhko.tg.bot.service.converter.RandomCatConverter;
 import by.bozhko.tg.bot.util.RandomCatDeserializer;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.Request;
 import org.asynchttpclient.RequestBuilder;
 import org.asynchttpclient.Response;
 import org.asynchttpclient.util.HttpConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 @RequiredArgsConstructor
+@Slf4j
 public class DefaultRandomCatUrlService implements RandomCatUrlService {
 
     private final AsyncHttpClient asyncHttpClient;
@@ -30,6 +33,8 @@ public class DefaultRandomCatUrlService implements RandomCatUrlService {
         String responseBody = getResponse(applicationProperties.getCatsApiEndpoint()).getResponseBody();
 
         RandomCat randomCat = randomCatDeserializer.deserialize(responseBody).get(0);
+
+        log.info("Random image url: {}", randomCat.getUrl());
 
         return randomCatConverter.convertToCat(randomCat);
     }
