@@ -78,8 +78,11 @@ public class ApplicationConfig {
     }
 
     @Bean
-    TelegramWebhookBot randomCatTgWebHookBot(TelegramUpdateRequestHandler telegramUpdateRequestHandler) {
+    TelegramWebhookBot randomCatTgWebHookBot(
+        TelegramUpdateRequestHandler telegramUpdateRequestHandler,
+        ApplicationProperties applicationProperties
+    ) {
 
-        return new RandomCatTgWebHookBot(telegramUpdateRequestHandler);
+        return new RandomCatTgWebHookBot(telegramUpdateRequestHandler, applicationProperties);
     }
 }

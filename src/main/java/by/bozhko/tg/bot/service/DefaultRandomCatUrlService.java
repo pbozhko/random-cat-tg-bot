@@ -12,8 +12,6 @@ import org.asynchttpclient.Request;
 import org.asynchttpclient.RequestBuilder;
 import org.asynchttpclient.Response;
 import org.asynchttpclient.util.HttpConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;

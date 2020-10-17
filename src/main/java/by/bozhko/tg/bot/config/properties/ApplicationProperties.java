@@ -9,4 +9,7 @@ public class ApplicationProperties {
 
     @NotBlank
     private final String catsApiEndpoint;
+
+    @NotBlank
+    private final String botToken;
 }

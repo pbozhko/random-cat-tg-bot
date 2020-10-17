@@ -1,5 +1,6 @@
 package by.bozhko.tg.bot.service.bot;
 
+import by.bozhko.tg.bot.config.properties.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -13,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 public class RandomCatTgWebHookBot extends TelegramWebhookBot {
 
     private final TelegramUpdateRequestHandler telegramUpdateRequestHandler;
+    private final ApplicationProperties applicationProperties;
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
@@ -32,7 +34,8 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
 
     @Override
     public String getBotToken() {
-        return null;
+
+        return applicationProperties.getBotToken();
     }
 
     @Override
