@@ -32,7 +32,7 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
 
         log.info(update.toString());
-        
+
         try {
             Message message = update.getMessage();
 
