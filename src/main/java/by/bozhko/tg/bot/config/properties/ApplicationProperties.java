@@ -25,4 +25,6 @@ public class ApplicationProperties {
     @Min(500)
     @Max(10000)
     private final Integer connectTimeout;
+
+    private final DataSourceProperties dataSourceProperties;
 }

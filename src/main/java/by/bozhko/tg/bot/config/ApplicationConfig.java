@@ -1,6 +1,7 @@
 package by.bozhko.tg.bot.config;
 
 import by.bozhko.tg.bot.config.properties.ApplicationProperties;
+import by.bozhko.tg.bot.dao.ImageDao;
 import by.bozhko.tg.bot.service.DefaultRandomCatUrlService;
 import by.bozhko.tg.bot.service.RandomCatUrlService;
 import by.bozhko.tg.bot.service.bot.DefaultTelegramUpdateRequestHandler;
@@ -12,7 +13,6 @@ import by.bozhko.tg.bot.util.JsonRandomCatDeserializer;
 import by.bozhko.tg.bot.util.RandomCatDeserializer;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.DefaultAsyncHttpClient;
 import org.asynchttpclient.DefaultAsyncHttpClientConfig;
@@ -81,9 +81,10 @@ public class ApplicationConfig {
     @Bean
     TelegramWebhookBot randomCatTgWebHookBot(
         TelegramUpdateRequestHandler telegramUpdateRequestHandler,
-        ApplicationProperties applicationProperties
+        ApplicationProperties applicationProperties,
+        ImageDao imageDao
     ) {
 
-        return new RandomCatTgWebHookBot(telegramUpdateRequestHandler, applicationProperties);
+        return new RandomCatTgWebHookBot(telegramUpdateRequestHandler, applicationProperties, imageDao);
     }
 }

@@ -20,6 +20,9 @@
         <httpclient.version>2.12.1</httpclient.version>
         <junit.version>5.1.0</junit.version>
         <telegram.version>4.1.2</telegram.version>
+        <flyway.version>6.3.2</flyway.version>
+        <hikari.version>3.4.2</hikari.version>
+        <postgresql.version>42.2.12</postgresql.version>
     </properties>
 
     <build>
@@ -55,6 +58,11 @@
             <version>${spring.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
             <version>${telegram.version}</version>
@@ -64,6 +72,21 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${hikari.version}</version>
         </dependency>
         <dependency>
             <groupId>org.asynchttpclient</groupId>
