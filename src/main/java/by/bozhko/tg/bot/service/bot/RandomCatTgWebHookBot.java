@@ -21,11 +21,20 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
 
-        log.info("New message {}", update.getMessage().getText());
+        String messageText = update.getMessage().getText();
+
+        log.info("New message {}", messageText);
 
         try {
-            execute(telegramUpdateRequestHandler.getSendPhoto(update));
+            if (messageText.equals("/start")) {
+
+                execute(telegramUpdateRequestHandler.getFirstMessage(update));
+            } else {
+
+                execute(telegramUpdateRequestHandler.getSendPhoto(update));
+            }
         } catch (TelegramApiException | InterruptedException | ExecutionException | IOException e) {
+
             e.printStackTrace();
         }
 
