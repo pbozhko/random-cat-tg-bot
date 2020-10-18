@@ -3,8 +3,6 @@ package by.bozhko.tg.bot.service.bot;
 import by.bozhko.tg.bot.model.Cat;
 import by.bozhko.tg.bot.service.RandomCatUrlService;
 import lombok.RequiredArgsConstructor;
-import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -25,14 +23,6 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
 
         Cat cat = randomCatUrlService.getCat();
 
-        return new SendPhoto()
-            .setChatId(update.getMessage().getChatId())
-            .setPhoto("It's a cat!", new URL(cat.getImageUrl()).openStream());
-    }
-
-    @Override
-    public SendMessage getSendMessage(Update update) {
-
         InlineKeyboardButton button = new InlineKeyboardButton()
             .setText("Show me cats!");
 
@@ -40,9 +30,9 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
 
         List<List<InlineKeyboardButton>> keyboard = List.of(buttonsRow);
 
-        return new SendMessage()
-            .setReplyMarkup(null)
+        return new SendPhoto()
             .setChatId(update.getMessage().getChatId())
+            .setPhoto("It's a cat!", new URL(cat.getImageUrl()).openStream())
             .setReplyMarkup(new InlineKeyboardMarkup().setKeyboard(keyboard));
     }
 }
