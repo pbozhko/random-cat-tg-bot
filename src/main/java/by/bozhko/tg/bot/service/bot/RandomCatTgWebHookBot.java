@@ -25,17 +25,19 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
 
         log.info("New message {}", messageText);
 
-        try {
-            if (messageText.equals("/start")) {
+        if (messageText != null) {
+            try {
+                if (messageText.equals("/start")) {
 
-                execute(telegramUpdateRequestHandler.getFirstMessage(update));
-            } else {
+                    execute(telegramUpdateRequestHandler.getFirstMessage(update));
+                } else {
 
-                execute(telegramUpdateRequestHandler.getSendPhoto(update));
+                    execute(telegramUpdateRequestHandler.getSendPhoto(update));
+                }
+            } catch (TelegramApiException | InterruptedException | ExecutionException | IOException e) {
+
+                e.printStackTrace();
             }
-        } catch (TelegramApiException | InterruptedException | ExecutionException | IOException e) {
-
-            e.printStackTrace();
         }
 
         return null;
