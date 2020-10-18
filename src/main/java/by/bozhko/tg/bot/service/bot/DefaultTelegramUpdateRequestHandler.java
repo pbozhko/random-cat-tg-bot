@@ -29,10 +29,15 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
 
         List<KeyboardRow> keyboardRows = List.of(keyboardRow);
 
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        replyKeyboardMarkup.setOneTimeKeyboard(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setKeyboard(keyboardRows);
+
         return new SendPhoto()
             .setChatId(update.getMessage().getChatId())
             .setPhoto("It's a cat!", new URL(cat.getImageUrl()).openStream())
-            .setReplyMarkup(new ReplyKeyboardMarkup().setKeyboard(keyboardRows));
+            .setReplyMarkup(replyKeyboardMarkup);
     }
 
     @Override
