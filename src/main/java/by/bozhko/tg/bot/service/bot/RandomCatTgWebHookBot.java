@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -68,39 +69,41 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
 
             final List<String> allowedMimeTypes = List.of("image/bmp", "image/gif", "image/jpeg", "image/png");
 
-            update.getMessage().getPhoto().forEach(photoSize -> {
+            PhotoSize photoSize = update.getMessage().getPhoto().get(1);
 
-                try {
-                    File tmpFile = downloadFile(photoSize.getFilePath());
+            try {
+                log.info("FilePath {}", photoSize.getFilePath());
+                log.info("FileId {}", photoSize.getFileId());
 
-                    String mimeType = Files.probeContentType(tmpFile.toPath());
+                File tmpFile = downloadFile(photoSize.getFilePath());
 
-                    log.info("Mime Type: {}", mimeType);
+                String mimeType = Files.probeContentType(tmpFile.toPath());
 
-                    if (allowedMimeTypes.contains(mimeType)) {
+                log.info("Mime Type: {}", mimeType);
 
-                        Integer height = photoSize.getHeight();
-                        Integer width = photoSize.getWidth();
+                if (allowedMimeTypes.contains(mimeType)) {
 
-                        Image image = new Image(
-                            null,
-                            "Test Image",
-                            Instant.now(),
-                            mimeType,
-                            width,
-                            height,
-                            readFileToByteArray(tmpFile)
-                        );
+                    Integer height = photoSize.getHeight();
+                    Integer width = photoSize.getWidth();
 
-                        imageDao.save(image);
-                    }
+                    Image image = new Image(
+                        null,
+                        "Test Image",
+                        Instant.now(),
+                        mimeType,
+                        width,
+                        height,
+                        readFileToByteArray(tmpFile)
+                    );
 
-                    tmpFile.deleteOnExit();
-                } catch (IOException | TelegramApiException ex) {
-
-                    ex.printStackTrace();
+                    imageDao.save(image);
                 }
-            });
+
+                tmpFile.deleteOnExit();
+            } catch (IOException | TelegramApiException ex) {
+
+                ex.printStackTrace();
+            }
 
             execute(telegramUpdateRequestHandler.getSendPhoto(update));
         } catch (Exception ex) {
