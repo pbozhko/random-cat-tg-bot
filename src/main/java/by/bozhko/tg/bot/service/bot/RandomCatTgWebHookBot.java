@@ -47,12 +47,20 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
 
                 if (messageText != null) {
 
-                    if (messageText.equals("/start")) {
+                    switch (messageText) {
 
-                        execute(telegramUpdateRequestHandler.getFirstMessage(update));
-                    } else {
-
-                        execute(telegramUpdateRequestHandler.getSendPhoto(update));
+                        case "/start": {
+                            execute(telegramUpdateRequestHandler.getFirstMessage(update));
+                            break;
+                        }
+                        case "Хочу Кита!": {
+                            execute(telegramUpdateRequestHandler.getKitSendPhoto(update));
+                            break;
+                        }
+                        default: {
+                            execute(telegramUpdateRequestHandler.getSendPhoto(update));
+                            break;
+                        }
                     }
                 }
             }
@@ -105,8 +113,6 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
 
                 ex.printStackTrace();
             }
-
-            execute(telegramUpdateRequestHandler.getSendPhoto(update));
         } catch (Exception ex) {
 
             ex.printStackTrace();

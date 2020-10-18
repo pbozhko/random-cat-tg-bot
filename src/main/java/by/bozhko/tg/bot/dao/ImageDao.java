@@ -13,4 +13,6 @@ public interface ImageDao {
     void deleteById(final Long id);
 
     List<Image> getAll();
+
+    List<Long> getAllIds();
 }

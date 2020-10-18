@@ -57,4 +57,13 @@ public class JdbcImageDao implements ImageDao {
             imageRowMapper
         );
     }
+
+    @Override
+    public List<Long> getAllIds() {
+
+        return jdbcTemplate.query(
+            "SELECT id FROM t_images",
+            (resultSet, i) -> resultSet.getLong("id")
+        );
+    }
 }

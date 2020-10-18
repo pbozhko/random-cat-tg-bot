@@ -3,7 +3,9 @@ package by.bozhko.tg.bot.config;
 import by.bozhko.tg.bot.config.properties.ApplicationProperties;
 import by.bozhko.tg.bot.dao.ImageDao;
 import by.bozhko.tg.bot.service.DefaultRandomCatUrlService;
+import by.bozhko.tg.bot.service.DefaultRandomImageService;
 import by.bozhko.tg.bot.service.RandomCatUrlService;
+import by.bozhko.tg.bot.service.RandomImageService;
 import by.bozhko.tg.bot.service.bot.DefaultTelegramUpdateRequestHandler;
 import by.bozhko.tg.bot.service.bot.RandomCatTgWebHookBot;
 import by.bozhko.tg.bot.service.bot.TelegramUpdateRequestHandler;
@@ -73,9 +75,18 @@ public class ApplicationConfig {
     }
 
     @Bean
-    TelegramUpdateRequestHandler telegramUpdateRequestHandler(RandomCatUrlService randomCatUrlService) {
+    RandomImageService randomImageService(ImageDao imageDao) {
 
-        return new DefaultTelegramUpdateRequestHandler(randomCatUrlService);
+        return new DefaultRandomImageService(imageDao);
+    }
+
+    @Bean
+    TelegramUpdateRequestHandler telegramUpdateRequestHandler(
+        RandomCatUrlService randomCatUrlService,
+        RandomImageService randomImageService
+    ) {
+
+        return new DefaultTelegramUpdateRequestHandler(randomCatUrlService, randomImageService);
     }
 
     @Bean

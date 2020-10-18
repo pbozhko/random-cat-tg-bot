@@ -11,5 +11,7 @@ public interface TelegramUpdateRequestHandler {
 
     SendPhoto getSendPhoto(Update update) throws InterruptedException, ExecutionException, IOException;
 
+    SendPhoto getKitSendPhoto(Update update) throws InterruptedException, ExecutionException, IOException;
+
     SendMessage getFirstMessage(Update update);
 }
