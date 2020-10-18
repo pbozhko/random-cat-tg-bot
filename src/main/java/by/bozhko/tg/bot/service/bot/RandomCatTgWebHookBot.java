@@ -31,6 +31,8 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
 
+        log.info(update.toString());
+        
         try {
             Message message = update.getMessage();
 
