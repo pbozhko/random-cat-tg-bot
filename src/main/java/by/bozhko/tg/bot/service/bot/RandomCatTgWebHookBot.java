@@ -71,13 +71,14 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
             update.getMessage().getPhoto().forEach(photoSize -> {
 
                 try {
-                    File tmpFile = downloadFile(photoSize.getFileId());
+                    File tmpFile = downloadFile(photoSize.getFilePath());
 
                     String mimeType = Files.probeContentType(tmpFile.toPath());
 
                     log.info("Mime Type: {}", mimeType);
 
                     if (allowedMimeTypes.contains(mimeType)) {
+
                         Integer height = photoSize.getHeight();
                         Integer width = photoSize.getWidth();
 
