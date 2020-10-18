@@ -5,8 +5,8 @@ import by.bozhko.tg.bot.service.RandomCatUrlService;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,16 +23,14 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
 
         Cat cat = randomCatUrlService.getCat();
 
-        InlineKeyboardButton button = new InlineKeyboardButton()
-            .setText("Show me cats!");
+        KeyboardRow keyboardRow = new KeyboardRow();
+        keyboardRow.add("I need more cats!");
 
-        List<InlineKeyboardButton> buttonsRow = List.of(button);
-
-        List<List<InlineKeyboardButton>> keyboard = List.of(buttonsRow);
+        List<KeyboardRow> keyboardRows = List.of(keyboardRow);
 
         return new SendPhoto()
             .setChatId(update.getMessage().getChatId())
             .setPhoto("It's a cat!", new URL(cat.getImageUrl()).openStream())
-            .setReplyMarkup(new InlineKeyboardMarkup().setKeyboard(keyboard));
+            .setReplyMarkup(new ReplyKeyboardMarkup().setKeyboard(keyboardRows));
     }
 }
