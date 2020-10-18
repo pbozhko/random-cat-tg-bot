@@ -32,12 +32,11 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
 
         try {
-
             Message message = update.getMessage();
 
             if (message.getDocument() != null) {
 
-                downloadDocument(message);
+                downloadDocument(update);
             } else {
 
                 String messageText = message.getText();
@@ -61,12 +60,13 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
         return null;
     }
 
-    private void downloadDocument(Message message) throws TelegramApiException, IOException {
+    private void downloadDocument(Update update) throws TelegramApiException, IOException, ExecutionException,
+        InterruptedException {
 
-        log.info(message.getDocument().toString());
-        log.info(message.getPhoto().toString());
+        log.info(update.getMessage().getDocument().toString());
+        log.info(update.getMessage().getPhoto().toString());
 
-        final Document document = message.getDocument();
+        final Document document = update.getMessage().getDocument();
         final List<String> allowedMimeTypes = List.of("image/bmp", "image/gif", "image/jpeg", "image/png");
         String mimeType = document.getMimeType();
 
@@ -92,6 +92,8 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
             imageDao.save(image);
 
             file.deleteOnExit();
+
+            execute(telegramUpdateRequestHandler.getSendPhoto(update));
         }
     }
 
