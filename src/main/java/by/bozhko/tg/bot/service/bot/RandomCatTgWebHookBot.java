@@ -67,9 +67,6 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
     private void downloadPhoto(Update update) {
 
         try {
-
-            final List<String> allowedMimeTypes = List.of("image/bmp", "image/gif", "image/jpeg", "image/png");
-
             List<PhotoSize> allPhotoSizes = update.getMessage().getPhoto();
 
             PhotoSize photoSize = allPhotoSizes.get(allPhotoSizes.size() - 1);
@@ -83,23 +80,25 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
 
                 log.info("Mime Type: {}", mimeType);
 
-                if (allowedMimeTypes.contains(mimeType)) {
+                if (mimeType == null) {
 
-                    Integer height = photoSize.getHeight();
-                    Integer width = photoSize.getWidth();
-
-                    Image image = new Image(
-                        null,
-                        "Test Image",
-                        Instant.now(),
-                        mimeType,
-                        width,
-                        height,
-                        readFileToByteArray(tmpFile)
-                    );
-
-                    imageDao.save(image);
+                    mimeType = "image/jpeg";
                 }
+
+                Integer height = photoSize.getHeight();
+                Integer width = photoSize.getWidth();
+
+                Image image = new Image(
+                    null,
+                    "Test Image",
+                    Instant.now(),
+                    mimeType,
+                    width,
+                    height,
+                    readFileToByteArray(tmpFile)
+                );
+
+                imageDao.save(image);
 
                 tmpFile.deleteOnExit();
             } catch (IOException | TelegramApiException ex) {
