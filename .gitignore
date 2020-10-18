@@ -2,3 +2,7 @@
 out/
 target/
 *.iml
+node_modules/
+package-lock.json
+build/
+yarn.lock
