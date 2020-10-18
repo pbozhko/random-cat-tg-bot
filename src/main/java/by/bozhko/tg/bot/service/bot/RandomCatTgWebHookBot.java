@@ -2,6 +2,7 @@ package by.bozhko.tg.bot.service.bot;
 
 import by.bozhko.tg.bot.config.properties.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 @RequiredArgsConstructor
+@Slf4j
 public class RandomCatTgWebHookBot extends TelegramWebhookBot {
 
     private final TelegramUpdateRequestHandler telegramUpdateRequestHandler;
@@ -18,6 +20,8 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
+
+        log.info("New message {}", update.getMessage().getText());
 
         try {
             execute(telegramUpdateRequestHandler.getSendPhoto(update));
