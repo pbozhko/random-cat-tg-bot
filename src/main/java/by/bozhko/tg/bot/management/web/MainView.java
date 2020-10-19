@@ -29,7 +29,7 @@ public class MainView extends AppLayout {
         addToNavbar(tabs);
 
         grid.setHeightByRows(true);
-        
+
         setContent(grid);
 
         loadImages();
