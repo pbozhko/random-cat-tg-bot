@@ -21,43 +21,12 @@
         <junit.version>5.1.0</junit.version>
         <telegram.version>4.1.2</telegram.version>
         <flyway.version>6.3.2</flyway.version>
-        <hikari.version>3.4.2</hikari.version>
         <postgresql.version>42.2.12</postgresql.version>
         <frontend-maven-plugin.version>1.7.6</frontend-maven-plugin.version>
         <node.version>v12.3.1</node.version>
         <yarn.version>v1.16.0</yarn.version>
         <frontend-src-dir>${project.basedir}/src/main/resources/static/management</frontend-src-dir>
     </properties>
-
-    <profiles>
-        <profile>
-            <id>npm</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.eirslett</groupId>
-                        <artifactId>frontend-maven-plugin</artifactId>
-                        <!-- Use the latest released version:
-                        https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
-                        <version>1.9.1</version>
-                        <executions>
-                            <execution>
-                                <id>install node and npm</id>
-                                <goals>
-                                    <goal>install-node-and-npm</goal>
-                                </goals>
-                                <!-- optional: default phase is "generate-resources" -->
-                                <phase>generate-resources</phase>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <nodeVersion>v12.13.0</nodeVersion>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <build>
         <plugins>
@@ -177,11 +146,6 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
             <version>${flyway.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>${hikari.version}</version>
         </dependency>
         <dependency>
             <groupId>org.asynchttpclient</groupId>
