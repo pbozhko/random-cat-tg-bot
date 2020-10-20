@@ -2,6 +2,8 @@
   "name": "management",
   "version": "1.0.0",
   "main": "index.js",
+  "author": "Pavel Bozhko",
+  "license": "UNLICENSED",
   "scripts": {
     "start": "webpack-dev-server --mode=development --open --hot",
     "build": "webpack --mode=production"
