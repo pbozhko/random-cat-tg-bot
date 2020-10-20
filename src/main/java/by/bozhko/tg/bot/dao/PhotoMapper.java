@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class PhotoMapper implements RowMapper<Photo> {
 
@@ -18,7 +19,8 @@ public class PhotoMapper implements RowMapper<Photo> {
             resultSet.getString("mime_type"),
             resultSet.getInt("width"),
             resultSet.getInt("height"),
-            resultSet.getBytes("content")
+            resultSet.getBytes("content"),
+            resultSet.getObject("uuid", UUID.class)
         );
     }
 }

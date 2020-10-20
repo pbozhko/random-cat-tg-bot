@@ -3,6 +3,7 @@ package by.bozhko.tg.bot.dao;
 import by.bozhko.tg.bot.dao.model.Photo;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface PhotoDao {
 
@@ -15,4 +16,6 @@ public interface PhotoDao {
     List<Photo> getAll();
 
     List<Long> getAllIds();
+
+    Photo getByUuid(final UUID uuid);
 }

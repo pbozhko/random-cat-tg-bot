@@ -11,8 +11,10 @@ import by.bozhko.tg.bot.service.bot.RandomCatTgWebHookBot;
 import by.bozhko.tg.bot.service.bot.TelegramUpdateRequestHandler;
 import by.bozhko.tg.bot.service.converter.DefaultRandomCatConverter;
 import by.bozhko.tg.bot.service.converter.RandomCatConverter;
+import by.bozhko.tg.bot.util.DefaultUuidGenerator;
 import by.bozhko.tg.bot.util.JsonRandomCatDeserializer;
 import by.bozhko.tg.bot.util.RandomCatDeserializer;
+import by.bozhko.tg.bot.util.UuidGenerator;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.asynchttpclient.AsyncHttpClient;
@@ -90,12 +92,19 @@ public class ApplicationConfig {
     }
 
     @Bean
+    UuidGenerator uuidGenerator() {
+
+        return new DefaultUuidGenerator();
+    }
+
+    @Bean
     TelegramWebhookBot randomCatTgWebHookBot(
         TelegramUpdateRequestHandler telegramUpdateRequestHandler,
         ApplicationProperties applicationProperties,
-        PhotoDao photoDao
+        PhotoDao photoDao,
+        UuidGenerator uuidGenerator
     ) {
 
-        return new RandomCatTgWebHookBot(telegramUpdateRequestHandler, applicationProperties, photoDao);
+        return new RandomCatTgWebHookBot(telegramUpdateRequestHandler, applicationProperties, photoDao, uuidGenerator);
     }
 }

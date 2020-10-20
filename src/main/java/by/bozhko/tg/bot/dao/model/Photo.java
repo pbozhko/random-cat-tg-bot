@@ -3,6 +3,7 @@ package by.bozhko.tg.bot.dao.model;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Data
 public class Photo {
@@ -14,4 +15,5 @@ public class Photo {
     private final Integer width;
     private final Integer height;
     private final byte[] content;
+    private final UUID uuid;
 }

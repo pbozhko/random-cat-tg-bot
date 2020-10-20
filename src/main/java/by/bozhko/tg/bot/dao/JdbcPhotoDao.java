@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.support.SqlLobValue;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 public class JdbcPhotoDao implements PhotoDao {
@@ -27,10 +28,21 @@ public class JdbcPhotoDao implements PhotoDao {
     }
 
     @Override
+    public Photo getByUuid(final UUID uuid) {
+
+        return jdbcTemplate.queryForObject(
+            "SELECT * FROM t_photos WHERE uuid = ?",
+            new Object[]{uuid},
+            photoRowMapper
+        );
+    }
+
+    @Override
     public void save(final Photo photo) {
 
         jdbcTemplate.update(
-            "INSERT INTO t_photos (title, created_at, content, width, height, mime_type) VALUES (?, ?, ?, ?, ?, ?)",
+            "INSERT INTO t_photos (title, created_at, content, width, height, mime_type, uuid) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)",
             new Object[]{
                 photo.getTitle(),
                 Timestamp.from(photo.getCreatedAt()),
@@ -38,8 +50,12 @@ public class JdbcPhotoDao implements PhotoDao {
                 photo.getWidth(),
                 photo.getHeight(),
                 photo.getMimeType(),
+                photo.getUuid()
             },
-            new int[]{Types.VARCHAR, Types.TIMESTAMP, Types.BLOB, Types.INTEGER, Types.INTEGER, Types.VARCHAR}
+            new int[]{
+                Types.VARCHAR, Types.TIMESTAMP, Types.BLOB, Types.INTEGER,
+                Types.INTEGER, Types.VARCHAR, Types.JAVA_OBJECT
+            }
         );
     }
 
