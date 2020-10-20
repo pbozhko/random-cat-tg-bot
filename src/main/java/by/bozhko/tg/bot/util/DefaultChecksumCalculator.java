@@ -16,6 +16,6 @@ public class DefaultChecksumCalculator implements ChecksumCalculator {
         md.update(bytes);
         byte[] digest = md.digest();
 
-        return DatatypeConverter.printHexBinary(digest);
+        return DatatypeConverter.printHexBinary(digest).toLowerCase();
     }
 }
