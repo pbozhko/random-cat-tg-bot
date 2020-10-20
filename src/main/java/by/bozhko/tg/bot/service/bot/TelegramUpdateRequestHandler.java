@@ -14,4 +14,6 @@ public interface TelegramUpdateRequestHandler {
     SendPhoto getKitSendPhoto(Update update);
 
     SendMessage getFirstMessage(Update update);
+
+    SendMessage getDefaultMessage(Update update);
 }

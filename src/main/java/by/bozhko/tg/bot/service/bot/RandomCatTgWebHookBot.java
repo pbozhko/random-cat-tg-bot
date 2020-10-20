@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -37,47 +38,75 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
 
+        Message message = update.getMessage();
+        CallbackQuery callbackQuery = update.getCallbackQuery();
+
         try {
-            Message message = update.getMessage();
-
-            if (message.hasPhoto()) {
-
-                downloadPhoto(update);
+            if (message != null) {
+                handleMessage(update);
             } else {
-
-                String messageText = message.getText();
-
-                if (messageText != null) {
-
-                    switch (messageText) {
-
-                        case "/start": {
-                            execute(telegramUpdateRequestHandler.getFirstMessage(update));
-                            break;
-                        }
-                        case "Хочу Кита!": {
-                            execute(telegramUpdateRequestHandler.getKitSendPhoto(update));
-                            break;
-                        }
-                        default: {
-                            execute(telegramUpdateRequestHandler.getSendPhoto(update));
-                            break;
-                        }
-                    }
+                if (callbackQuery != null) {
+                    handleCallbackQuery(update);
+                } else {
+                    handleDefault(update);
                 }
             }
         } catch (TelegramApiException | InterruptedException | ExecutionException | IOException e) {
-
             e.printStackTrace();
         }
 
         return null;
     }
 
-    private void downloadPhoto(Update update) {
+    private void handleMessage(Update update) throws TelegramApiException {
+
+        Message message = update.getMessage();
+
+        if (message.hasPhoto()) {
+
+            downloadPhoto(message);
+        } else {
+
+            handleDefault(update);
+        }
+    }
+
+    private void handleDefault(Update update) throws TelegramApiException {
+
+        execute(telegramUpdateRequestHandler.getDefaultMessage(update));
+    }
+
+    private void handleCallbackQuery(Update update) throws TelegramApiException, InterruptedException,
+        ExecutionException, IOException {
+
+        CallbackQuery callbackQuery = update.getCallbackQuery();
+
+        String callbackData = callbackQuery.getData();
+
+        if (callbackData != null) {
+
+            switch (callbackData) {
+
+                case "/start": {
+                    execute(telegramUpdateRequestHandler.getFirstMessage(update));
+                    break;
+                }
+                case "Хочу Кита!": {
+                    execute(telegramUpdateRequestHandler.getKitSendPhoto(update));
+                    break;
+                }
+                default: {
+                    execute(telegramUpdateRequestHandler.getSendPhoto(update));
+                    break;
+                }
+            }
+        }
+    }
+
+    private void downloadPhoto(Message message) {
 
         try {
-            List<PhotoSize> allPhotoSizes = update.getMessage().getPhoto();
+            List<PhotoSize> allPhotoSizes = message.getPhoto();
 
             PhotoSize photoSize = allPhotoSizes.get(allPhotoSizes.size() - 1);
 

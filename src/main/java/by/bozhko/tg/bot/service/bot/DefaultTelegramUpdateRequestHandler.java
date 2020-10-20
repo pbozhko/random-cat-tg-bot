@@ -9,9 +9,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -30,36 +28,14 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
 
         Cat cat = randomCatUrlService.getCat();
 
-        KeyboardRow keyboardRow = new KeyboardRow();
-        keyboardRow.add("Хочу Кита!");
-        keyboardRow.add("Хочу других котиков!");
-
-        List<KeyboardRow> keyboardRows = List.of(keyboardRow);
-
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        replyKeyboardMarkup.setOneTimeKeyboard(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setKeyboard(keyboardRows);
-
         return new SendPhoto()
             .setChatId(update.getMessage().getChatId())
             .setPhoto("Это котик", new URL(cat.getPhotoUrl()).openStream())
-            .setReplyMarkup(replyKeyboardMarkup);
+            .setReplyMarkup(buildInlineKeyboardMarkup());
     }
 
     @Override
     public SendPhoto getKitSendPhoto(Update update) {
-
-        KeyboardRow keyboardRow = new KeyboardRow();
-        keyboardRow.add("Хочу Кита!");
-        keyboardRow.add("Хочу других котиков!");
-
-        List<KeyboardRow> keyboardRows = List.of(keyboardRow);
-
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        replyKeyboardMarkup.setOneTimeKeyboard(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setKeyboard(keyboardRows);
 
         if (randomImageService.getImage().isPresent()) {
 
@@ -68,28 +44,34 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
             return new SendPhoto()
                 .setChatId(update.getMessage().getChatId())
                 .setPhoto("Это котик", new ByteArrayInputStream(photo.getContent()))
-                .setReplyMarkup(replyKeyboardMarkup);
+                .setReplyMarkup(buildInlineKeyboardMarkup());
         } else {
 
             return new SendPhoto()
                 .setChatId(update.getMessage().getChatId())
-                .setReplyMarkup(replyKeyboardMarkup);
+                .setReplyMarkup(buildInlineKeyboardMarkup());
         }
     }
 
     @Override
     public SendMessage getFirstMessage(Update update) {
 
-        // KeyboardRow keyboardRow = new KeyboardRow();
-        // keyboardRow.add("Хочу Кита!");
-        // keyboardRow.add("Хочу других котиков!");
-        //
-        // List<KeyboardRow> keyboard = List.of(keyboardRow);
-        //
-        // ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        // replyKeyboardMarkup.setOneTimeKeyboard(true);
-        // replyKeyboardMarkup.setResizeKeyboard(true);
-        // replyKeyboardMarkup.setKeyboard(keyboard);
+        return new SendMessage()
+            .setChatId(update.getMessage().getChatId())
+            .setText("Привет! У меня есть много котиков. Хочешь их посмотреть?")
+            .setReplyMarkup(buildInlineKeyboardMarkup());
+    }
+
+    @Override
+    public SendMessage getDefaultMessage(Update update) {
+
+        return new SendMessage()
+            .setChatId(update.getMessage().getChatId())
+            .setText("Каких котиков ты хочешь увидеть?")
+            .setReplyMarkup(buildInlineKeyboardMarkup());
+    }
+
+    private InlineKeyboardMarkup buildInlineKeyboardMarkup() {
 
         InlineKeyboardButton button1 = new InlineKeyboardButton();
         button1.setText("Хочу Кита!");
@@ -104,9 +86,6 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         inlineKeyboardMarkup.setKeyboard(keyboard);
 
-        return new SendMessage()
-            .setChatId(update.getMessage().getChatId())
-            .setText("Привет! У меня есть много котиков. Хочешь их посмотреть?")
-            .setReplyMarkup(inlineKeyboardMarkup);
+        return inlineKeyboardMarkup;
     }
 }
