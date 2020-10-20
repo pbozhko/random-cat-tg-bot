@@ -27,11 +27,17 @@ public class DefaultTelegramBotPhotoService implements TelegramBotPhotoService {
     public SendPhoto getSendPhoto(Long chatId) throws InterruptedException, ExecutionException, IOException {
 
         Cat cat = randomCatUrlService.getCat();
+        try (InputStream is = new URL(cat.getPhotoUrl()).openStream()) {
 
         return new SendPhoto()
             .setChatId(chatId)
-            .setPhoto("Это котик", new URL(cat.getPhotoUrl()).openStream())
+            .setPhoto("Это котик", is)
             .setReplyMarkup(buildInlineKeyboardMarkup());
+        } catch (IOException e) {
+
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
