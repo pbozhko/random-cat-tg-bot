@@ -11,6 +11,8 @@ import by.bozhko.tg.bot.service.bot.RandomCatTgWebHookBot;
 import by.bozhko.tg.bot.service.bot.TelegramUpdateRequestHandler;
 import by.bozhko.tg.bot.service.converter.DefaultRandomCatConverter;
 import by.bozhko.tg.bot.service.converter.RandomCatConverter;
+import by.bozhko.tg.bot.util.ChecksumCalculator;
+import by.bozhko.tg.bot.util.DefaultChecksumCalculator;
 import by.bozhko.tg.bot.util.DefaultUuidGenerator;
 import by.bozhko.tg.bot.util.JsonRandomCatDeserializer;
 import by.bozhko.tg.bot.util.RandomCatDeserializer;
@@ -98,14 +100,26 @@ public class ApplicationConfig {
     }
 
     @Bean
+    ChecksumCalculator checksumCalculator() {
+
+        return new DefaultChecksumCalculator();
+    }
+
+    @Bean
     TelegramWebhookBot randomCatTgWebHookBot(
         TelegramUpdateRequestHandler telegramUpdateRequestHandler,
         ApplicationProperties applicationProperties,
         PhotoRepository photoRepository,
-        UuidGenerator uuidGenerator
+        UuidGenerator uuidGenerator,
+        ChecksumCalculator checksumCalculator
     ) {
 
-        return new RandomCatTgWebHookBot(telegramUpdateRequestHandler, applicationProperties, photoRepository,
-            uuidGenerator);
+        return new RandomCatTgWebHookBot(
+            telegramUpdateRequestHandler,
+            applicationProperties,
+            photoRepository,
+            uuidGenerator,
+            checksumCalculator
+        );
     }
 }

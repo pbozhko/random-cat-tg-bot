@@ -3,6 +3,7 @@ package by.bozhko.tg.bot.service.bot;
 import by.bozhko.tg.bot.config.properties.ApplicationProperties;
 import by.bozhko.tg.bot.dao.model.Photo;
 import by.bozhko.tg.bot.dao.repository.PhotoRepository;
+import by.bozhko.tg.bot.util.ChecksumCalculator;
 import by.bozhko.tg.bot.util.UuidGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
     private final ApplicationProperties applicationProperties;
     private final PhotoRepository photoRepository;
     private final UuidGenerator uuidGenerator;
+    private final ChecksumCalculator checksumCalculator;
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
@@ -96,6 +98,8 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
                 Integer height = photoSize.getHeight();
                 Integer width = photoSize.getWidth();
 
+                byte[] content = readFileToByteArray(tmpFile);
+
                 Photo photo = new Photo(
                     null,
                     "Test Image",
@@ -103,8 +107,9 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
                     mimeType,
                     width,
                     height,
-                    readFileToByteArray(tmpFile),
-                    uuidGenerator.generate()
+                    content,
+                    uuidGenerator.generate(),
+                    checksumCalculator.calculate(content)
                 );
 
                 photoRepository.save(photo);

@@ -51,4 +51,7 @@ public class Photo {
 
     @NotNull
     private UUID uuid;
+
+    @NotNull
+    private String checksum;
 }
