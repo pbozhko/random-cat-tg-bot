@@ -45,6 +45,7 @@ public class ApplicationConfig {
             .setReadTimeout(applicationProperties.getReadTimeout())
             .setConnectTimeout(applicationProperties.getConnectTimeout())
             .setMaxRedirects(3)
+            .setMaxRequestRetry(0)
             .build();
 
         return new DefaultAsyncHttpClient(config);
