@@ -1,6 +1,6 @@
 package by.bozhko.tg.bot.management.web;
 
-import by.bozhko.tg.bot.dao.PhotoDao;
+import by.bozhko.tg.bot.dao.repository.PhotoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,11 +15,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PhotoUrlController {
 
-    private final PhotoDao photoDao;
+    private final PhotoRepository photoRepository;
 
     @GetMapping(value = "/api/management/v1/photos/{uuid}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> getPhoto(@PathVariable("uuid") UUID uuid) {
 
-        return new ResponseEntity<>(photoDao.getByUuid(uuid).getContent(), HttpStatus.OK);
+        return new ResponseEntity<>(photoRepository.getByUuid(uuid).getContent(), HttpStatus.OK);
     }
 }

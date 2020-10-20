@@ -1,8 +1,8 @@
 package by.bozhko.tg.bot.service.bot;
 
 import by.bozhko.tg.bot.config.properties.ApplicationProperties;
-import by.bozhko.tg.bot.dao.PhotoDao;
 import by.bozhko.tg.bot.dao.model.Photo;
+import by.bozhko.tg.bot.dao.repository.PhotoRepository;
 import by.bozhko.tg.bot.util.UuidGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
 
     private final TelegramUpdateRequestHandler telegramUpdateRequestHandler;
     private final ApplicationProperties applicationProperties;
-    private final PhotoDao photoDao;
+    private final PhotoRepository photoRepository;
     private final UuidGenerator uuidGenerator;
 
     @Override
@@ -107,7 +107,7 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
                     uuidGenerator.generate()
                 );
 
-                photoDao.save(photo);
+                photoRepository.save(photo);
 
                 tmpFile.deleteOnExit();
             } catch (IOException | TelegramApiException ex) {

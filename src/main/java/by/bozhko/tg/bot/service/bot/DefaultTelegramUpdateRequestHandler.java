@@ -46,9 +46,7 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
     }
 
     @Override
-    public SendPhoto getKitSendPhoto(Update update) throws InterruptedException, ExecutionException, IOException {
-
-        Photo photo = randomImageService.getImage();
+    public SendPhoto getKitSendPhoto(Update update) {
 
         KeyboardRow keyboardRow = new KeyboardRow();
         keyboardRow.add("Хочу Кита!");
@@ -61,10 +59,20 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setKeyboard(keyboardRows);
 
-        return new SendPhoto()
-            .setChatId(update.getMessage().getChatId())
-            .setPhoto("Это котик", new ByteArrayInputStream(photo.getContent()))
-            .setReplyMarkup(replyKeyboardMarkup);
+        if (randomImageService.getImage().isPresent()) {
+
+            Photo photo = randomImageService.getImage().get();
+
+            return new SendPhoto()
+                .setChatId(update.getMessage().getChatId())
+                .setPhoto("Это котик", new ByteArrayInputStream(photo.getContent()))
+                .setReplyMarkup(replyKeyboardMarkup);
+        } else {
+
+            return new SendPhoto()
+                .setChatId(update.getMessage().getChatId())
+                .setReplyMarkup(replyKeyboardMarkup);
+        }
     }
 
     @Override

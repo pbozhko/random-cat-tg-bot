@@ -8,9 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.flywaydb.core.Flyway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
@@ -33,23 +30,13 @@ public class DataSourceConfig {
         config.setMaximumPoolSize(dataSourceProperties.getConnectionPoolSize());
         config.setConnectionTimeout(dataSourceProperties.getConnectionTimeout());
 
-        return new HikariDataSource(config);
-    }
-
-    @Bean
-    public JdbcTemplate jdbcTemplate(HikariDataSource hikariDataSource) {
+        HikariDataSource hikariDataSource = new HikariDataSource(config);
 
         Flyway.configure()
             .dataSource(hikariDataSource)
             .load()
             .migrate();
 
-        return new JdbcTemplate(hikariDataSource);
-    }
-
-    @Bean
-    TransactionManager transactionManager(HikariDataSource hikariDataSource) {
-
-        return new DataSourceTransactionManager(hikariDataSource);
+        return hikariDataSource;
     }
 }
