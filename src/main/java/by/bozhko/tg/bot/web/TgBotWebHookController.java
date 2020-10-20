@@ -4,8 +4,6 @@ import by.bozhko.tg.bot.dao.model.Account;
 import by.bozhko.tg.bot.dao.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,20 +18,14 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Async
 public class TgBotWebHookController {
 
     private final TelegramWebhookBot randomCatTgWebHookBot;
     private final AccountRepository accountRepository;
 
     @PostMapping("/api/v1/cat")
-    public final ResponseEntity<?> onUpdateReceived(@RequestBody Update update) {
-
-        handleRequest(update);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @Async
-    void handleRequest(Update update) {
+    public void onUpdateReceived(@RequestBody Update update) {
 
         log.info("New telegram request: {}", update);
 
@@ -71,5 +63,7 @@ public class TgBotWebHookController {
         }
 
         randomCatTgWebHookBot.onWebhookUpdateReceived(update);
+
+        log.info("Stop execution");
     }
 }

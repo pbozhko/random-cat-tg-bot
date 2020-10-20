@@ -25,13 +25,11 @@ import org.asynchttpclient.DefaultAsyncHttpClientConfig;
 import org.asynchttpclient.Dsl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.validation.annotation.Validated;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 
 @Configuration
 @Validated
-@EnableAsync
 public class ApplicationConfig {
 
     @Bean
