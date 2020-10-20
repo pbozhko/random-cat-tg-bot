@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -69,8 +70,10 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
                 execute(telegramBotPhotoService.getFirstMessage(message.getChatId()));
                 executeCleanMarkup(message.getChatId(), message.getMessageId());
             } else {
-                execute(telegramBotPhotoService.getDefaultMessage(message.getChatId()));
-                executeCleanMarkup(message.getChatId(), message.getMessageId());
+                DeleteMessage deleteMessage = new DeleteMessage();
+                deleteMessage.setChatId(message.getChatId());
+                deleteMessage.setMessageId(message.getMessageId());
+                execute(deleteMessage);
             }
         }
     }
