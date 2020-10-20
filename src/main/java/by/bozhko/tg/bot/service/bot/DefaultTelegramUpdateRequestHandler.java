@@ -74,11 +74,11 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
 
         InlineKeyboardButton button1 = new InlineKeyboardButton();
         button1.setText("Хочу Кита!");
-        button1.setCallbackData("Хочу Кита!");
+        button1.setCallbackData(BotCommand.SHOW_KIT.name());
 
         InlineKeyboardButton button2 = new InlineKeyboardButton();
         button2.setText("Хочу других котиков!");
-        button2.setCallbackData("Хочу других котиков!");
+        button2.setCallbackData(BotCommand.SHOW_OTHER_CATS.name());
 
         List<InlineKeyboardButton> buttonsRow = List.of(button1, button2);
         List<List<InlineKeyboardButton>> keyboard = List.of(buttonsRow);

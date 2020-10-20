@@ -74,15 +74,14 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
 
         CallbackQuery callbackQuery = update.getCallbackQuery();
 
-        String callbackData = callbackQuery.getData();
+        BotCommand botCommand = BotCommand.valueOf(callbackQuery.getData());
 
-        if (callbackData != null) {
+        if (botCommand == BotCommand.SHOW_KIT) {
 
-            if ("Хочу Кита!".equals(callbackData)) {
-                execute(telegramUpdateRequestHandler.getKitSendPhoto(callbackQuery.getMessage().getChatId()));
-            } else {
-                execute(telegramUpdateRequestHandler.getSendPhoto(callbackQuery.getMessage().getChatId()));
-            }
+            execute(telegramUpdateRequestHandler.getKitSendPhoto(callbackQuery.getMessage().getChatId()));
+        } else {
+
+            execute(telegramUpdateRequestHandler.getSendPhoto(callbackQuery.getMessage().getChatId()));
         }
     }
 
