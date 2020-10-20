@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class Cat {
 
-    private final String imageUrl;
+    private final String photoUrl;
 }

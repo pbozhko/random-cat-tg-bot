@@ -1,8 +1,8 @@
 package by.bozhko.tg.bot.service.bot;
 
 import by.bozhko.tg.bot.config.properties.ApplicationProperties;
-import by.bozhko.tg.bot.dao.ImageDao;
-import by.bozhko.tg.bot.dao.model.Image;
+import by.bozhko.tg.bot.dao.PhotoDao;
+import by.bozhko.tg.bot.dao.model.Photo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
@@ -28,7 +28,7 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
 
     private final TelegramUpdateRequestHandler telegramUpdateRequestHandler;
     private final ApplicationProperties applicationProperties;
-    private final ImageDao imageDao;
+    private final PhotoDao photoDao;
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
@@ -94,7 +94,7 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
                 Integer height = photoSize.getHeight();
                 Integer width = photoSize.getWidth();
 
-                Image image = new Image(
+                Photo photo = new Photo(
                     null,
                     "Test Image",
                     Instant.now(),
@@ -104,7 +104,7 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
                     readFileToByteArray(tmpFile)
                 );
 
-                imageDao.save(image);
+                photoDao.save(photo);
 
                 tmpFile.deleteOnExit();
             } catch (IOException | TelegramApiException ex) {

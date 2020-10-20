@@ -1,8 +1,8 @@
 package by.bozhko.tg.bot.service;
 
-import by.bozhko.tg.bot.dao.model.Image;
+import by.bozhko.tg.bot.dao.model.Photo;
 
 public interface RandomImageService {
 
-    Image getImage();
+    Photo getImage();
 }

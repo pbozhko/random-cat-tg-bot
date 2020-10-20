@@ -1,17 +1,17 @@
 package by.bozhko.tg.bot.dao;
 
-import by.bozhko.tg.bot.dao.model.Image;
+import by.bozhko.tg.bot.dao.model.Photo;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ImageMapper implements RowMapper<Image> {
+public class PhotoMapper implements RowMapper<Photo> {
 
     @Override
-    public Image mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+    public Photo mapRow(ResultSet resultSet, int rowNum) throws SQLException {
 
-        return new Image(
+        return new Photo(
             resultSet.getLong("id"),
             resultSet.getString("title"),
             resultSet.getTimestamp("created_at").toInstant(),

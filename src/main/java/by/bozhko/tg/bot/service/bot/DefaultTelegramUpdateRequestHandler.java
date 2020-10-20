@@ -1,6 +1,6 @@
 package by.bozhko.tg.bot.service.bot;
 
-import by.bozhko.tg.bot.dao.model.Image;
+import by.bozhko.tg.bot.dao.model.Photo;
 import by.bozhko.tg.bot.model.Cat;
 import by.bozhko.tg.bot.service.RandomCatUrlService;
 import by.bozhko.tg.bot.service.RandomImageService;
@@ -41,14 +41,14 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
 
         return new SendPhoto()
             .setChatId(update.getMessage().getChatId())
-            .setPhoto("Это котик", new URL(cat.getImageUrl()).openStream())
+            .setPhoto("Это котик", new URL(cat.getPhotoUrl()).openStream())
             .setReplyMarkup(replyKeyboardMarkup);
     }
 
     @Override
     public SendPhoto getKitSendPhoto(Update update) throws InterruptedException, ExecutionException, IOException {
 
-        Image image = randomImageService.getImage();
+        Photo photo = randomImageService.getImage();
 
         KeyboardRow keyboardRow = new KeyboardRow();
         keyboardRow.add("Хочу Кита!");
@@ -63,7 +63,7 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
 
         return new SendPhoto()
             .setChatId(update.getMessage().getChatId())
-            .setPhoto("Это котик", new ByteArrayInputStream(image.getContent()))
+            .setPhoto("Это котик", new ByteArrayInputStream(photo.getContent()))
             .setReplyMarkup(replyKeyboardMarkup);
     }
 

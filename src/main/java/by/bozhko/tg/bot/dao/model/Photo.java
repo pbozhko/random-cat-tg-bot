@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.Instant;
 
 @Data
-public class Image {
+public class Photo {
 
     private final Long id;
     private final String title;

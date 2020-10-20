@@ -1,7 +1,7 @@
 package by.bozhko.tg.bot.service;
 
-import by.bozhko.tg.bot.dao.ImageDao;
-import by.bozhko.tg.bot.dao.model.Image;
+import by.bozhko.tg.bot.dao.PhotoDao;
+import by.bozhko.tg.bot.dao.model.Photo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,15 +12,15 @@ import java.util.Random;
 @Slf4j
 public class DefaultRandomImageService implements RandomImageService {
 
-    private final ImageDao imageDao;
+    private final PhotoDao photoDao;
 
     @Override
-    public Image getImage() {
+    public Photo getImage() {
 
-        List<Long> allIds = imageDao.getAllIds();
+        List<Long> allIds = photoDao.getAllIds();
         Random rand = new Random();
         Long randomId = allIds.get(rand.nextInt(allIds.size()));
 
-        return imageDao.getById(randomId);
+        return photoDao.getById(randomId);
     }
 }

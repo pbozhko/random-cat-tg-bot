@@ -1,6 +1,6 @@
 package by.bozhko.tg.bot.dao;
 
-import by.bozhko.tg.bot.dao.model.Image;
+import by.bozhko.tg.bot.dao.model.Photo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -11,33 +11,33 @@ import java.sql.Types;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class JdbcImageDao implements ImageDao {
+public class JdbcPhotoDao implements PhotoDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<Image> imageRowMapper;
+    private final RowMapper<Photo> photoRowMapper;
 
     @Override
-    public Image getById(final Long id) {
+    public Photo getById(final Long id) {
 
         return jdbcTemplate.queryForObject(
-            "SELECT * FROM t_images WHERE id = ?",
+            "SELECT * FROM t_photos WHERE id = ?",
             new Object[]{id},
-            imageRowMapper
+            photoRowMapper
         );
     }
 
     @Override
-    public void save(final Image image) {
+    public void save(final Photo photo) {
 
         jdbcTemplate.update(
-            "INSERT INTO t_images (title, created_at, content, width, height, mime_type) VALUES (?, ?, ?, ?, ?, ?)",
+            "INSERT INTO t_photos (title, created_at, content, width, height, mime_type) VALUES (?, ?, ?, ?, ?, ?)",
             new Object[]{
-                image.getTitle(),
-                Timestamp.from(image.getCreatedAt()),
-                new SqlLobValue(image.getContent()),
-                image.getWidth(),
-                image.getHeight(),
-                image.getMimeType(),
+                photo.getTitle(),
+                Timestamp.from(photo.getCreatedAt()),
+                new SqlLobValue(photo.getContent()),
+                photo.getWidth(),
+                photo.getHeight(),
+                photo.getMimeType(),
             },
             new int[]{Types.VARCHAR, Types.TIMESTAMP, Types.BLOB, Types.INTEGER, Types.INTEGER, Types.VARCHAR}
         );
@@ -46,15 +46,15 @@ public class JdbcImageDao implements ImageDao {
     @Override
     public void deleteById(final Long id) {
 
-        jdbcTemplate.update("DELETE FROM t_images WHERE id = ?", id);
+        jdbcTemplate.update("DELETE FROM t_photos WHERE id = ?", id);
     }
 
     @Override
-    public List<Image> getAll() {
+    public List<Photo> getAll() {
 
         return jdbcTemplate.query(
-            "SELECT * FROM t_images",
-            imageRowMapper
+            "SELECT * FROM t_photos",
+            photoRowMapper
         );
     }
 
@@ -62,7 +62,7 @@ public class JdbcImageDao implements ImageDao {
     public List<Long> getAllIds() {
 
         return jdbcTemplate.query(
-            "SELECT id FROM t_images",
+            "SELECT id FROM t_photos",
             (resultSet, i) -> resultSet.getLong("id")
         );
     }

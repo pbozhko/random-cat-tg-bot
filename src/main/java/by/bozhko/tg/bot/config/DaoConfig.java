@@ -1,9 +1,9 @@
 package by.bozhko.tg.bot.config;
 
-import by.bozhko.tg.bot.dao.ImageDao;
-import by.bozhko.tg.bot.dao.ImageMapper;
-import by.bozhko.tg.bot.dao.JdbcImageDao;
-import by.bozhko.tg.bot.dao.model.Image;
+import by.bozhko.tg.bot.dao.JdbcPhotoDao;
+import by.bozhko.tg.bot.dao.PhotoDao;
+import by.bozhko.tg.bot.dao.PhotoMapper;
+import by.bozhko.tg.bot.dao.model.Photo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,14 +13,14 @@ import org.springframework.jdbc.core.RowMapper;
 public class DaoConfig {
 
     @Bean
-    RowMapper<Image> imageRowMapper() {
+    RowMapper<Photo> photoRowMapper() {
 
-        return new ImageMapper();
+        return new PhotoMapper();
     }
 
     @Bean
-    ImageDao imageDao(JdbcTemplate jdbcTemplate, RowMapper<Image> imageRowMapper) {
+    PhotoDao photoDao(JdbcTemplate jdbcTemplate, RowMapper<Photo> photoRowMapper) {
 
-        return new JdbcImageDao(jdbcTemplate, imageRowMapper);
+        return new JdbcPhotoDao(jdbcTemplate, photoRowMapper);
     }
 }

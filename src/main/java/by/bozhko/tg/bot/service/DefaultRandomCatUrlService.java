@@ -32,7 +32,7 @@ public class DefaultRandomCatUrlService implements RandomCatUrlService {
 
         RandomCat randomCat = randomCatDeserializer.deserialize(responseBody).get(0);
 
-        log.info("Random image url: {}", randomCat.getUrl());
+        log.info("Random photo url: {}", randomCat.getUrl());
 
         return randomCatConverter.convertToCat(randomCat);
     }
