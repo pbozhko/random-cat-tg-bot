@@ -28,6 +28,11 @@ public class TgBotWebHookController {
     public void onUpdateReceived(@RequestBody Update update) {
 
         log.info("New telegram request: {}", update);
+        handleRequest(update);
+        log.info("Stop execution");
+    }
+
+    void handleRequest(Update update) {
 
         User user;
 
@@ -63,7 +68,5 @@ public class TgBotWebHookController {
         }
 
         randomCatTgWebHookBot.onWebhookUpdateReceived(update);
-
-        log.info("Stop execution");
     }
 }
