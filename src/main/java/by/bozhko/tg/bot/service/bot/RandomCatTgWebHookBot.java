@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.File;
@@ -45,11 +46,11 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
         try {
             if (message != null) {
                 handleMessage(message);
-                return new SendMessage().setReplyMarkup(null).setChatId(message.getChatId());
+                return new SendMessage().setReplyMarkup(new ReplyKeyboardMarkup()).setChatId(message.getChatId());
             } else {
                 if (callbackQuery != null) {
                     handleCallbackQuery(callbackQuery);
-                    return new SendMessage().setReplyMarkup(null).setChatId(callbackQuery.getMessage().getChatId());
+                    return new SendMessage().setReplyMarkup(new ReplyKeyboardMarkup()).setChatId(callbackQuery.getMessage().getChatId());
                 }
             }
         } catch (TelegramApiException | InterruptedException | ExecutionException | IOException e) {
