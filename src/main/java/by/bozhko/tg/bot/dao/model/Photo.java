@@ -54,4 +54,7 @@ public class Photo {
 
     @NotNull
     private String checksum;
+
+    @NotNull
+    private boolean enabled;
 }

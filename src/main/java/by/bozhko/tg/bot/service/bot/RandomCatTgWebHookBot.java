@@ -109,7 +109,8 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
                     height,
                     content,
                     uuidGenerator.generate(),
-                    checksumCalculator.calculate(content)
+                    checksumCalculator.calculate(content),
+                    false
                 );
 
                 photoRepository.save(photo);
