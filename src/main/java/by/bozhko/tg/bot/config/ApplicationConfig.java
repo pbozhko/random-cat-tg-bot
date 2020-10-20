@@ -25,11 +25,13 @@ import org.asynchttpclient.DefaultAsyncHttpClientConfig;
 import org.asynchttpclient.Dsl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.validation.annotation.Validated;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 
 @Configuration
 @Validated
+@EnableAsync
 public class ApplicationConfig {
 
     @Bean
@@ -45,7 +47,7 @@ public class ApplicationConfig {
             .setReadTimeout(applicationProperties.getReadTimeout())
             .setConnectTimeout(applicationProperties.getConnectTimeout())
             .setMaxRedirects(3)
-            .setMaxRequestRetry(0)
+            .setMaxRequestRetry(3)
             .build();
 
         return new DefaultAsyncHttpClient(config);
