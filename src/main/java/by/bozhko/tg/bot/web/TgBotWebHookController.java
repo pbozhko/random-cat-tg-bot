@@ -18,7 +18,6 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@Async
 public class TgBotWebHookController {
 
     private final TelegramWebhookBot randomCatTgWebHookBot;
@@ -32,6 +31,7 @@ public class TgBotWebHookController {
         log.info("Stop execution");
     }
 
+    @Async
     void handleRequest(Update update) {
 
         User user;
