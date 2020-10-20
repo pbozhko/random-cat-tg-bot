@@ -6,11 +6,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -26,7 +26,14 @@ public class TgBotWebHookController {
     private final AccountRepository accountRepository;
 
     @PostMapping("/api/v1/cat")
-    public final ResponseEntity<BotApiMethod<?>> onUpdateReceived(@RequestBody Update update) {
+    public final ResponseEntity<?> onUpdateReceived(@RequestBody Update update) {
+
+        handleRequest(update);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Async
+    void handleRequest(Update update) {
 
         log.info("New telegram request: {}", update);
 
@@ -63,9 +70,6 @@ public class TgBotWebHookController {
             accountRepository.save(newAccount);
         }
 
-        return new ResponseEntity<BotApiMethod<?>>(
-            randomCatTgWebHookBot.onWebhookUpdateReceived(update),
-            HttpStatus.OK
-        );
+        randomCatTgWebHookBot.onWebhookUpdateReceived(update);
     }
 }
