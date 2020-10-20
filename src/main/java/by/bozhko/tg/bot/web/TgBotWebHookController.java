@@ -30,44 +30,42 @@ public class TgBotWebHookController {
 
         log.info("New telegram request: {}", update);
 
+        User user;
+
         Message message = update.getMessage();
 
         if (message == null) {
 
-            message = update.getCallbackQuery().getMessage();
+            user = update.getCallbackQuery().getFrom();
+        } else {
+
+            user = message.getFrom();
         }
 
-        if (message != null) {
+        Optional<Account> account = accountRepository.findByAccountId(user.getId().longValue());
 
-            User user = update.getMessage().getFrom();
+        if (account.isPresent()) {
 
-            Optional<Account> account = accountRepository.findByAccountId(user.getId().longValue());
+            log.info("Account is already known");
+        } else {
 
-            if (account.isPresent()) {
-
-                log.info("Account is already known");
-            } else {
-
-                Account newAccount = new Account(
-                    null,
-                    user.getId().longValue(),
-                    user.getFirstName(),
-                    user.getLastName(),
-                    user.getBot(),
-                    user.getUserName(),
-                    user.getLanguageCode()
-                );
-
-                log.info("Account is unknown. Create new one");
-                accountRepository.save(newAccount);
-            }
-
-            return new ResponseEntity<BotApiMethod<?>>(
-                randomCatTgWebHookBot.onWebhookUpdateReceived(update),
-                HttpStatus.OK
+            Account newAccount = new Account(
+                null,
+                user.getId().longValue(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getBot(),
+                user.getUserName(),
+                user.getLanguageCode()
             );
+
+            log.info("Account is unknown. Create new one");
+            accountRepository.save(newAccount);
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<BotApiMethod<?>>(
+            randomCatTgWebHookBot.onWebhookUpdateReceived(update),
+            HttpStatus.OK
+        );
     }
 }
