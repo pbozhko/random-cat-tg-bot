@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
@@ -44,9 +45,11 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
         try {
             if (message != null) {
                 handleMessage(message);
+                return new SendMessage().setReplyMarkup(null).setChatId(message.getChatId());
             } else {
                 if (callbackQuery != null) {
-                    handleCallbackQuery(update);
+                    handleCallbackQuery(callbackQuery);
+                    return new SendMessage().setReplyMarkup(null).setChatId(callbackQuery.getMessage().getChatId());
                 }
             }
         } catch (TelegramApiException | InterruptedException | ExecutionException | IOException e) {
@@ -69,10 +72,8 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
         }
     }
 
-    private void handleCallbackQuery(Update update) throws TelegramApiException, InterruptedException,
+    private void handleCallbackQuery(CallbackQuery callbackQuery) throws TelegramApiException, InterruptedException,
         ExecutionException, IOException {
-
-        CallbackQuery callbackQuery = update.getCallbackQuery();
 
         BotCommand botCommand = null;
 
