@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -27,10 +28,17 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
 
         Cat cat = randomCatUrlService.getCat();
 
-        return new SendPhoto()
-            .setChatId(chatId)
-            .setPhoto("Это котик", new URL(cat.getPhotoUrl()).openStream())
-            .setReplyMarkup(buildInlineKeyboardMarkup());
+        try (InputStream is = new URL(cat.getPhotoUrl()).openStream()) {
+
+            return new SendPhoto()
+                .setChatId(chatId)
+                .setPhoto("Это котик", is)
+                .setReplyMarkup(buildInlineKeyboardMarkup());
+        } catch (IOException e) {
+
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -40,10 +48,17 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
 
             Photo photo = randomImageService.getImage().get();
 
-            return new SendPhoto()
-                .setChatId(chatId)
-                .setPhoto("Это котик", new ByteArrayInputStream(photo.getContent()))
-                .setReplyMarkup(buildInlineKeyboardMarkup());
+            try (InputStream is = new ByteArrayInputStream(photo.getContent())) {
+
+                return new SendPhoto()
+                    .setChatId(chatId)
+                    .setPhoto("Это котик", is)
+                    .setReplyMarkup(buildInlineKeyboardMarkup());
+            } catch (IOException e) {
+
+                e.printStackTrace();
+                return null;
+            }
         } else {
 
             return new SendPhoto()
