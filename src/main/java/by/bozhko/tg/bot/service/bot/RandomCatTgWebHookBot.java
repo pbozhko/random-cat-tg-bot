@@ -10,14 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.File;
@@ -48,11 +46,11 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
         try {
             if (message != null) {
                 handleMessage(message);
-                return new SendMessage().setReplyMarkup(new ReplyKeyboardMarkup()).setChatId(message.getChatId());
+                return null;
             } else {
                 if (callbackQuery != null) {
                     handleCallbackQuery(callbackQuery);
-                    return new SendMessage().setReplyMarkup(new ReplyKeyboardMarkup()).setChatId(callbackQuery.getMessage().getChatId());
+                    return null;
                 }
             }
         } catch (TelegramApiException | InterruptedException | ExecutionException | IOException e) {
@@ -69,8 +67,10 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
         } else {
             if (message.getText().equals("/start")) {
                 execute(telegramBotPhotoService.getFirstMessage(message.getChatId()));
+                executeCleanMarkup(message.getChatId(), message.getMessageId());
             } else {
                 execute(telegramBotPhotoService.getDefaultMessage(message.getChatId()));
+                executeCleanMarkup(message.getChatId(), message.getMessageId());
             }
         }
     }
@@ -90,32 +90,27 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
             if (botCommand == BotCommand.SHOW_KIT) {
 
                 execute(telegramBotPhotoService.getKitSendPhoto(callbackQuery.getMessage().getChatId()));
-
-                EditMessageReplyMarkup editMessageReplyMarkup = new EditMessageReplyMarkup();
-                editMessageReplyMarkup.setInlineMessageId(callbackQuery.getInlineMessageId());
-                editMessageReplyMarkup.setReplyMarkup(new InlineKeyboardMarkup());
-
-                execute(editMessageReplyMarkup);
+                executeCleanMarkup(callbackQuery.getMessage().getChatId(), callbackQuery.getMessage().getMessageId());
             } else {
 
                 execute(telegramBotPhotoService.getSendPhoto(callbackQuery.getMessage().getChatId()));
-
-                EditMessageReplyMarkup editMessageReplyMarkup = new EditMessageReplyMarkup();
-                editMessageReplyMarkup.setInlineMessageId(callbackQuery.getInlineMessageId());
-                editMessageReplyMarkup.setReplyMarkup(new InlineKeyboardMarkup());
-
-                execute(editMessageReplyMarkup);
+                executeCleanMarkup(callbackQuery.getMessage().getChatId(), callbackQuery.getMessage().getMessageId());
             }
         } else {
 
             execute(telegramBotPhotoService.getDefaultMessage(callbackQuery.getMessage().getChatId()));
-
-            EditMessageReplyMarkup editMessageReplyMarkup = new EditMessageReplyMarkup();
-            editMessageReplyMarkup.setInlineMessageId(callbackQuery.getInlineMessageId());
-            editMessageReplyMarkup.setReplyMarkup(new InlineKeyboardMarkup());
-
-            execute(editMessageReplyMarkup);
+            executeCleanMarkup(callbackQuery.getMessage().getChatId(), callbackQuery.getMessage().getMessageId());
         }
+    }
+
+    private void executeCleanMarkup(Long chatId, Integer messageId) throws TelegramApiException {
+
+        EditMessageReplyMarkup editMessageReplyMarkup = new EditMessageReplyMarkup();
+        editMessageReplyMarkup.setMessageId(messageId);
+        editMessageReplyMarkup.setChatId(chatId);
+        editMessageReplyMarkup.setReplyMarkup(new InlineKeyboardMarkup());
+
+        execute(editMessageReplyMarkup);
     }
 
     private void downloadPhoto(Message message) {
