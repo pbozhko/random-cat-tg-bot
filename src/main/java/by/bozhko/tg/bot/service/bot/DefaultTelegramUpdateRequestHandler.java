@@ -7,7 +7,6 @@ import by.bozhko.tg.bot.service.RandomImageService;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
@@ -24,49 +23,49 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
     private final RandomImageService randomImageService;
 
     @Override
-    public SendPhoto getSendPhoto(Update update) throws InterruptedException, ExecutionException, IOException {
+    public SendPhoto getSendPhoto(Long chatId) throws InterruptedException, ExecutionException, IOException {
 
         Cat cat = randomCatUrlService.getCat();
 
         return new SendPhoto()
-            .setChatId(update.getMessage().getChatId())
+            .setChatId(chatId)
             .setPhoto("Это котик", new URL(cat.getPhotoUrl()).openStream())
             .setReplyMarkup(buildInlineKeyboardMarkup());
     }
 
     @Override
-    public SendPhoto getKitSendPhoto(Update update) {
+    public SendPhoto getKitSendPhoto(Long chatId) {
 
         if (randomImageService.getImage().isPresent()) {
 
             Photo photo = randomImageService.getImage().get();
 
             return new SendPhoto()
-                .setChatId(update.getMessage().getChatId())
+                .setChatId(chatId)
                 .setPhoto("Это котик", new ByteArrayInputStream(photo.getContent()))
                 .setReplyMarkup(buildInlineKeyboardMarkup());
         } else {
 
             return new SendPhoto()
-                .setChatId(update.getMessage().getChatId())
+                .setChatId(chatId)
                 .setReplyMarkup(buildInlineKeyboardMarkup());
         }
     }
 
     @Override
-    public SendMessage getFirstMessage(Update update) {
+    public SendMessage getFirstMessage(Long chatId) {
 
         return new SendMessage()
-            .setChatId(update.getMessage().getChatId())
+            .setChatId(chatId)
             .setText("Привет! У меня есть много котиков. Хочешь их посмотреть?")
             .setReplyMarkup(buildInlineKeyboardMarkup());
     }
 
     @Override
-    public SendMessage getDefaultMessage(Update update) {
+    public SendMessage getDefaultMessage(Long chatId) {
 
         return new SendMessage()
-            .setChatId(update.getMessage().getChatId())
+            .setChatId(chatId)
             .setText("Каких котиков ты хочешь увидеть?")
             .setReplyMarkup(buildInlineKeyboardMarkup());
     }

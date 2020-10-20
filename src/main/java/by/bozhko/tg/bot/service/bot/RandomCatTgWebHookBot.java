@@ -43,12 +43,10 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
 
         try {
             if (message != null) {
-                handleMessage(update);
+                handleMessage(message);
             } else {
                 if (callbackQuery != null) {
                     handleCallbackQuery(update);
-                } else {
-                    handleDefault(update);
                 }
             }
         } catch (TelegramApiException | InterruptedException | ExecutionException | IOException e) {
@@ -58,22 +56,17 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
         return null;
     }
 
-    private void handleMessage(Update update) throws TelegramApiException {
-
-        Message message = update.getMessage();
+    private void handleMessage(Message message) throws TelegramApiException {
 
         if (message.hasPhoto()) {
-
             downloadPhoto(message);
         } else {
-
-            handleDefault(update);
+            if (message.getText().equals("/start")) {
+                execute(telegramUpdateRequestHandler.getFirstMessage(message.getChatId()));
+            } else {
+                execute(telegramUpdateRequestHandler.getDefaultMessage(message.getChatId()));
+            }
         }
-    }
-
-    private void handleDefault(Update update) throws TelegramApiException {
-
-        execute(telegramUpdateRequestHandler.getDefaultMessage(update));
     }
 
     private void handleCallbackQuery(Update update) throws TelegramApiException, InterruptedException,
@@ -85,20 +78,10 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
 
         if (callbackData != null) {
 
-            switch (callbackData) {
-
-                case "/start": {
-                    execute(telegramUpdateRequestHandler.getFirstMessage(update));
-                    break;
-                }
-                case "Хочу Кита!": {
-                    execute(telegramUpdateRequestHandler.getKitSendPhoto(update));
-                    break;
-                }
-                default: {
-                    execute(telegramUpdateRequestHandler.getSendPhoto(update));
-                    break;
-                }
+            if ("Хочу Кита!".equals(callbackData)) {
+                execute(telegramUpdateRequestHandler.getKitSendPhoto(callbackQuery.getMessage().getChatId()));
+            } else {
+                execute(telegramUpdateRequestHandler.getSendPhoto(callbackQuery.getMessage().getChatId()));
             }
         }
     }
