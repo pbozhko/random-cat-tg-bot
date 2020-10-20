@@ -28,17 +28,10 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
 
         Cat cat = randomCatUrlService.getCat();
 
-        try (InputStream is = new URL(cat.getPhotoUrl()).openStream()) {
-
-            return new SendPhoto()
-                .setChatId(chatId)
-                .setPhoto("Это котик", is)
-                .setReplyMarkup(buildInlineKeyboardMarkup());
-        } catch (IOException e) {
-
-            e.printStackTrace();
-            return null;
-        }
+        return new SendPhoto()
+            .setChatId(chatId)
+            .setPhoto("Это котик", new URL(cat.getPhotoUrl()).openStream())
+            .setReplyMarkup(buildInlineKeyboardMarkup());
     }
 
     @Override
