@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public interface TelegramUpdateRequestHandler {
+public interface TelegramBotPhotoService {
 
     SendPhoto getSendPhoto(Long chatId) throws InterruptedException, ExecutionException, IOException;
 

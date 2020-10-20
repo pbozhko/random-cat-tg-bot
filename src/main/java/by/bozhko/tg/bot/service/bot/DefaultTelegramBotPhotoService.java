@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RequiredArgsConstructor
-public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateRequestHandler {
+public class DefaultTelegramBotPhotoService implements TelegramBotPhotoService {
 
     private final RandomCatUrlService randomCatUrlService;
     private final RandomImageService randomImageService;

@@ -11,10 +11,12 @@ import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -31,7 +33,7 @@ import static org.apache.commons.io.FileUtils.readFileToByteArray;
 @Slf4j
 public class RandomCatTgWebHookBot extends TelegramWebhookBot {
 
-    private final TelegramUpdateRequestHandler telegramUpdateRequestHandler;
+    private final TelegramBotPhotoService telegramBotPhotoService;
     private final ApplicationProperties applicationProperties;
     private final PhotoRepository photoRepository;
     private final UuidGenerator uuidGenerator;
@@ -66,9 +68,9 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
             downloadPhoto(message);
         } else {
             if (message.getText().equals("/start")) {
-                execute(telegramUpdateRequestHandler.getFirstMessage(message.getChatId()));
+                execute(telegramBotPhotoService.getFirstMessage(message.getChatId()));
             } else {
-                execute(telegramUpdateRequestHandler.getDefaultMessage(message.getChatId()));
+                execute(telegramBotPhotoService.getDefaultMessage(message.getChatId()));
             }
         }
     }
@@ -87,13 +89,32 @@ public class RandomCatTgWebHookBot extends TelegramWebhookBot {
 
             if (botCommand == BotCommand.SHOW_KIT) {
 
-                execute(telegramUpdateRequestHandler.getKitSendPhoto(callbackQuery.getMessage().getChatId()));
+                execute(telegramBotPhotoService.getKitSendPhoto(callbackQuery.getMessage().getChatId()));
+
+                EditMessageReplyMarkup editMessageReplyMarkup = new EditMessageReplyMarkup();
+                editMessageReplyMarkup.setInlineMessageId(callbackQuery.getInlineMessageId());
+                editMessageReplyMarkup.setReplyMarkup(new InlineKeyboardMarkup());
+
+                execute(editMessageReplyMarkup);
             } else {
 
-                execute(telegramUpdateRequestHandler.getSendPhoto(callbackQuery.getMessage().getChatId()));
+                execute(telegramBotPhotoService.getSendPhoto(callbackQuery.getMessage().getChatId()));
+
+                EditMessageReplyMarkup editMessageReplyMarkup = new EditMessageReplyMarkup();
+                editMessageReplyMarkup.setInlineMessageId(callbackQuery.getInlineMessageId());
+                editMessageReplyMarkup.setReplyMarkup(new InlineKeyboardMarkup());
+
+                execute(editMessageReplyMarkup);
             }
         } else {
-            execute(telegramUpdateRequestHandler.getDefaultMessage(callbackQuery.getMessage().getChatId()));
+
+            execute(telegramBotPhotoService.getDefaultMessage(callbackQuery.getMessage().getChatId()));
+
+            EditMessageReplyMarkup editMessageReplyMarkup = new EditMessageReplyMarkup();
+            editMessageReplyMarkup.setInlineMessageId(callbackQuery.getInlineMessageId());
+            editMessageReplyMarkup.setReplyMarkup(new InlineKeyboardMarkup());
+
+            execute(editMessageReplyMarkup);
         }
     }
 

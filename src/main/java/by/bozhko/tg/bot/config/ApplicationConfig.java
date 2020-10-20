@@ -1,14 +1,17 @@
 package by.bozhko.tg.bot.config;
 
 import by.bozhko.tg.bot.config.properties.ApplicationProperties;
+import by.bozhko.tg.bot.dao.repository.AccountRepository;
 import by.bozhko.tg.bot.dao.repository.PhotoRepository;
 import by.bozhko.tg.bot.service.DefaultRandomCatUrlService;
 import by.bozhko.tg.bot.service.DefaultRandomImageService;
+import by.bozhko.tg.bot.service.DefaultTelegramUpdateRequestHandler;
 import by.bozhko.tg.bot.service.RandomCatUrlService;
 import by.bozhko.tg.bot.service.RandomImageService;
-import by.bozhko.tg.bot.service.bot.DefaultTelegramUpdateRequestHandler;
+import by.bozhko.tg.bot.service.TelegramUpdateRequestHandler;
+import by.bozhko.tg.bot.service.bot.DefaultTelegramBotPhotoService;
 import by.bozhko.tg.bot.service.bot.RandomCatTgWebHookBot;
-import by.bozhko.tg.bot.service.bot.TelegramUpdateRequestHandler;
+import by.bozhko.tg.bot.service.bot.TelegramBotPhotoService;
 import by.bozhko.tg.bot.service.converter.DefaultRandomCatConverter;
 import by.bozhko.tg.bot.service.converter.RandomCatConverter;
 import by.bozhko.tg.bot.util.ChecksumCalculator;
@@ -86,12 +89,12 @@ public class ApplicationConfig {
     }
 
     @Bean
-    TelegramUpdateRequestHandler telegramUpdateRequestHandler(
+    TelegramBotPhotoService telegramBotPhotoService(
         RandomCatUrlService randomCatUrlService,
         RandomImageService randomImageService
     ) {
 
-        return new DefaultTelegramUpdateRequestHandler(randomCatUrlService, randomImageService);
+        return new DefaultTelegramBotPhotoService(randomCatUrlService, randomImageService);
     }
 
     @Bean
@@ -108,7 +111,7 @@ public class ApplicationConfig {
 
     @Bean
     TelegramWebhookBot randomCatTgWebHookBot(
-        TelegramUpdateRequestHandler telegramUpdateRequestHandler,
+        TelegramBotPhotoService telegramBotPhotoService,
         ApplicationProperties applicationProperties,
         PhotoRepository photoRepository,
         UuidGenerator uuidGenerator,
@@ -116,11 +119,20 @@ public class ApplicationConfig {
     ) {
 
         return new RandomCatTgWebHookBot(
-            telegramUpdateRequestHandler,
+            telegramBotPhotoService,
             applicationProperties,
             photoRepository,
             uuidGenerator,
             checksumCalculator
         );
+    }
+
+    @Bean
+    TelegramUpdateRequestHandler telegramUpdateRequestHandler(
+        TelegramWebhookBot randomCatTgWebHookBot,
+        AccountRepository accountRepository
+    ) {
+
+        return new DefaultTelegramUpdateRequestHandler(randomCatTgWebHookBot, accountRepository);
     }
 }
