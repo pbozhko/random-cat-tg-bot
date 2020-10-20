@@ -5,6 +5,7 @@ import by.bozhko.tg.bot.model.Cat;
 import by.bozhko.tg.bot.service.RandomCatUrlService;
 import by.bozhko.tg.bot.service.RandomImageService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.IOUtils;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -27,12 +28,24 @@ public class DefaultTelegramBotPhotoService implements TelegramBotPhotoService {
     public SendPhoto getSendPhoto(Long chatId) throws InterruptedException, ExecutionException, IOException {
 
         Cat cat = randomCatUrlService.getCat();
+
+        byte[] imageBytes;
+
         try (InputStream is = new URL(cat.getPhotoUrl()).openStream()) {
 
-        return new SendPhoto()
-            .setChatId(chatId)
-            .setPhoto("Это котик", is)
-            .setReplyMarkup(buildInlineKeyboardMarkup());
+            imageBytes = IOUtils.toByteArray(is);
+        } catch (IOException e) {
+
+            e.printStackTrace();
+            return null;
+        }
+
+        try (InputStream is = new ByteArrayInputStream(imageBytes)) {
+
+            return new SendPhoto()
+                .setChatId(chatId)
+                .setPhoto("Это котик", is)
+                .setReplyMarkup(buildInlineKeyboardMarkup());
         } catch (IOException e) {
 
             e.printStackTrace();
