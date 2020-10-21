@@ -6,14 +6,13 @@ const HelloWorld = () => {
 
     const [allPhotos, setData] = useState([]);
 
-    useEffect(async () => {
+    useEffect(() => {
 
-        const result = await axios(
-            '/api/management/v1/photos',
-        );
-
-        setData(result.data);
-    });
+        const fetchData = async () => {
+            const response = await axios.get('/api/management/v1/photos').then(response => setData(response.data)).catch(error=>{});
+        }
+        fetchData();
+    }, []);
 
     return (
         <Container>

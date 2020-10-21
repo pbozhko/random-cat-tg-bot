@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -41,5 +42,6 @@ public class Account {
     private String languageCode;
 
     @Column(name = "chat_id")
-    private Long chatId; //TODO make it not nullable in DB when all values will be updated
+    @NotNull
+    private Long chatId;
 }

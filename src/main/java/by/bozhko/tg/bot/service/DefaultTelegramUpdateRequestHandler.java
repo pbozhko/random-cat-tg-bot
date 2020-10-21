@@ -44,11 +44,6 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
 
             log.info("Account is already known");
 
-            // TODO disable it when all users will update chat ids
-            Account updatedAccount = account.get();
-            updatedAccount.setChatId(chatId);
-
-            accountRepository.save(updatedAccount);
         } else {
 
             Account newAccount = new Account(
