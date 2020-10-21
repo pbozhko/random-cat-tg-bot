@@ -15,4 +15,6 @@ public interface PhotoRepository extends CrudRepository<Photo, Long> {
 
     @Query("SELECT id FROM Photo")
     List<Long> getAllIds();
+
+    List<Photo> findAllByOrderByCreatedAtDesc();
 }

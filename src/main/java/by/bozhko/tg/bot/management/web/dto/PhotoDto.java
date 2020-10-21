@@ -7,4 +7,5 @@ public class PhotoDto {
 
     private Long id;
     private String url;
+    private Long createdAt;
 }
