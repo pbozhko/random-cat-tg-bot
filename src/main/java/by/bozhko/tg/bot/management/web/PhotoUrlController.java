@@ -17,7 +17,7 @@ public class PhotoUrlController {
 
     private final PhotoRepository photoRepository;
 
-    @GetMapping(value = "/api/management/v1/photos/{uuid}", produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping(value = "/api/management/v1/photos/urls/{uuid}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> getPhoto(@PathVariable("uuid") UUID uuid) {
 
         return new ResponseEntity<>(photoRepository.getByUuid(uuid).getContent(), HttpStatus.OK);
