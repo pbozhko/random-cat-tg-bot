@@ -24,15 +24,18 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
     public void handleRequest(Update update) {
 
         User user;
+        Long chatId;
 
         Message message = update.getMessage();
 
         if (message == null) {
 
             user = update.getCallbackQuery().getFrom();
+            chatId = update.getCallbackQuery().getMessage().getChatId();
         } else {
 
             user = message.getFrom();
+            chatId = message.getChatId();
         }
 
         Optional<Account> account = accountRepository.findByAccountId(user.getId().longValue());
@@ -40,6 +43,11 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
         if (account.isPresent()) {
 
             log.info("Account is already known");
+
+            Account updatedAccount = account.get();
+            updatedAccount.setChatId(chatId);
+
+            accountRepository.save(updatedAccount);
         } else {
 
             Account newAccount = new Account(
@@ -49,7 +57,8 @@ public class DefaultTelegramUpdateRequestHandler implements TelegramUpdateReques
                 user.getLastName(),
                 user.getBot(),
                 user.getUserName(),
-                user.getLanguageCode()
+                user.getLanguageCode(),
+                chatId
             );
 
             log.info("Account is unknown. Create new one");

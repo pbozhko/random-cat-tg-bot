@@ -39,4 +39,7 @@ public class Account {
 
     @Column(name = "language_code")
     private String languageCode;
+
+    @Column(name = "chat_id")
+    private Long chatId; //TODO make it not nullable in DB when all values will be updated
 }
