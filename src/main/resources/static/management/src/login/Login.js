@@ -9,14 +9,14 @@ const Login = () => {
     const [isRecaptchaPassed, passRecaptcha] = useState(false);
 
     return (
-        <Container>
+        <Container style={{ "padding-top": "10vh" }} fluid>
             <Row>
-                <Col lg={{ span: 2, offset: 5 }} xs={{ span: 4, offset: 4 }}>
+                <Col lg={{ span: 2, offset: 5 }} md={{ span: 4, offset: 4 }} xs={{ span: 6, offset: 3 }}>
                     <Image src={LOGO} fluid/>
                 </Col>
             </Row>
             <Row>
-                <Col md={{ span: 4, offset: 4 }}>
+                <Col lg={{ span: 4, offset: 4 }} md={{ span: 8, offset: 2 }}>
                     <Form>
                         <Form.Group>
                             <Form.Label>Login</Form.Label>
@@ -37,7 +37,8 @@ const Login = () => {
                             </GoogleReCaptchaProvider>
                         </Form.Group>
 
-                        <Button block variant="success" type="submit" size="lg" disabled={!isRecaptchaPassed}>Submit</Button>
+                        <Button block variant="success" type="submit" size="lg"
+                                disabled={!isRecaptchaPassed}>Submit</Button>
                     </Form>
                 </Col>
             </Row>
