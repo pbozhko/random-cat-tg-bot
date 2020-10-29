@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from 'react-dom';
 
-import Login from './login/Login';
+import MainView from './view/MainView'
 
-render(<Login />, document.getElementById('root'));
+render(<MainView />, document.getElementById('root'));

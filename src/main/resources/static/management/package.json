@@ -17,7 +17,8 @@
     "react-bootstrap": "^1.4.0",
     "react-dom": "^16.14.0",
     "react-google-recaptcha-v3": "^1.6.1",
-    "react-moment": "^1.0.0"
+    "react-moment": "^1.0.0",
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",

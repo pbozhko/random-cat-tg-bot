@@ -4,7 +4,7 @@ import {Button, Col, Container, Form, Image, Row} from 'react-bootstrap';
 
 import LOGO from '../../assets/img/logo.png';
 
-const Login = () => {
+const LoginPage = () => {
 
     const [isRecaptchaPassed, passRecaptcha] = useState(false);
 
@@ -38,7 +38,7 @@ const Login = () => {
                         </Form.Group>
 
                         <Button block variant="success" type="submit" size="lg"
-                                disabled={!isRecaptchaPassed}>Submit</Button>
+                                disabled={!isRecaptchaPassed}>Sign Up</Button>
                     </Form>
                 </Col>
             </Row>
@@ -46,4 +46,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default LoginPage;
