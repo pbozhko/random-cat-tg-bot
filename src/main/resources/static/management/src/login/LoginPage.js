@@ -1,26 +1,26 @@
-import React, {useState} from 'react';
-import {Redirect, useLocation} from 'react-router-dom';
+import React, {useState} from 'react'
+import {Redirect, useLocation} from 'react-router-dom'
 
-import {Button, Col, Form, Image, Row} from 'react-bootstrap';
+import {Button, Col, Form, Image, Row} from 'react-bootstrap'
 
-import LOGO from '../../assets/img/logo.png';
-import {fakeAuth} from '../view/Login';
+import LOGO from '../../assets/img/logo.png'
+import {fakeAuth} from '../view/Login'
 
 const LoginPage = () => {
 
-    const { state } = useLocation();
-    const { from } = state || { from: { pathname: "/photos" } };
-    const [redirectToReferrer, setRedirectToReferrer] = useState(false);
+    const { state } = useLocation()
+    const { from } = state || { from: { pathname: "/photos" } }
+    const [redirectToReferrer, setRedirectToReferrer] = useState(false)
 
     const login = (e) => {
         fakeAuth.authenticate(() => {
-            setRedirectToReferrer(true);
-        });
-    };
+            setRedirectToReferrer(true)
+        })
+    }
 
     if (redirectToReferrer) {
 
-        return <Redirect to={from} />;
+        return <Redirect to={from} />
     }
 
     return (
@@ -48,7 +48,7 @@ const LoginPage = () => {
                 </Col>
             </Row>
         </React.Fragment>
-    );
-};
+    )
+}
 
-export default LoginPage;
+export default LoginPage

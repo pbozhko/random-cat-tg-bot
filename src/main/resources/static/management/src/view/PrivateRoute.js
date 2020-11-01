@@ -1,6 +1,6 @@
-import React, {Component} from "react";
-import {Redirect, Route, useLocation} from "react-router-dom";
-import {fakeAuth} from './Login';
+import React, {Component} from "react"
+import {Redirect, Route, useLocation} from "react-router-dom"
+import {fakeAuth} from './Login'
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
 
@@ -12,7 +12,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
                     <Redirect to={{ pathname: "/login", state: { from: useLocation() } }}/>
             }
         </Route>
-    );
-};
+    )
+}
 
-export default PrivateRoute;
+export default PrivateRoute

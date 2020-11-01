@@ -1,20 +1,20 @@
-import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {sortedRules} from '../actions/rulesAction';
+import React from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {sortedRules} from '../actions/rulesAction'
 
 const TablePage = () => {
 
-    const columns = ["Name", "Company", "City", "State"];
+    const columns = ["Name", "Company", "City", "State"]
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
-    const AllRules = useSelector(state => state.data);
-    const SortedRules = useSelector(state => state.sortedRules);
+    const AllRules = useSelector(state => state.data)
+    const SortedRules = useSelector(state => state.sortedRules)
 
     const options = {
         filterType: 'checkbox',
         onTableChange: (action, tableState) => {
-            dispatch(sortedRules(tableState.data));
+            dispatch(sortedRules(tableState.data))
         }
     };
 
@@ -38,7 +38,7 @@ const TablePage = () => {
                 </tbody>
             </table>
         </React.Fragment>
-    );
-};
+    )
+}
 
-export default TablePage;
+export default TablePage

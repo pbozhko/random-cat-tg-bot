@@ -3,4 +3,4 @@ export const sortedRules = rules => {
         type: 'SORT',
         payload: rules
     }
-};
+}

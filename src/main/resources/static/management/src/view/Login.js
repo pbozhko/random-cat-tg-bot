@@ -1,7 +1,7 @@
 export const fakeAuth = {
     isAuthenticated: false,
     authenticate(cb) {
-        this.isAuthenticated = true;
+        this.isAuthenticated = true
         cb()
     }
-};
+}

@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Card, Col, Row} from 'react-bootstrap';
-import axios from 'axios';
-import Moment from 'react-moment';
+import React, {useEffect, useState} from 'react'
+import {Button, Card, Col, Row} from 'react-bootstrap'
+import axios from 'axios'
+import Moment from 'react-moment'
 
 const PhotosView = () => {
 
@@ -10,22 +10,22 @@ const PhotosView = () => {
     useEffect(() => {
 
         const fetchData = async () => {
-            await axios.get('http://localhost:8080/api/management/v1/photos');
-        };
+            await axios.get('http://localhost:8080/api/management/v1/photos')
+        }
 
         const deletePhoto = async id => {
-            await axios.delete('http://localhost:8080/api/management/v1/photos/' + id);
-        };
+            await axios.delete('http://localhost:8080/api/management/v1/photos/' + id)
+        }
 
         fetchData()
             .then(response => setAllPhotos(response.data))
-            .catch(error => true);
-    }, []);
+            .catch(error => true)
+    }, [])
 
     const deletePhoto = id => {
-        deletePhoto(id);
-        fetchData();
-    };
+        deletePhoto(id)
+        fetchData()
+    }
 
     return (
         <Row>
@@ -44,7 +44,7 @@ const PhotosView = () => {
                 )
             }
         </Row>
-    );
-};
+    )
+}
 
-export default PhotosView;
+export default PhotosView

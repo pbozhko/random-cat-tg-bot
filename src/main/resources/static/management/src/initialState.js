@@ -6,6 +6,6 @@ const initialState = {
         ["James Houston", "Test Corp", "Dallas", "TX"]
     ],
     sortedRules: []
-};
+}
 
-export default initialState;
+export default initialState
