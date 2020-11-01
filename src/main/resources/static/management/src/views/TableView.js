@@ -1,8 +1,9 @@
 import React from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {sortedRules} from '../actions/rulesAction'
+import {Container} from 'react-bootstrap'
 
-const TablePage = () => {
+const TableView = () => {
 
     const columns = ["Name", "Company", "City", "State"]
 
@@ -16,10 +17,10 @@ const TablePage = () => {
         onTableChange: (action, tableState) => {
             dispatch(sortedRules(tableState.data))
         }
-    };
+    }
 
     return (
-        <React.Fragment>
+        <Container>
             <table>
                 <thead>
                 <tr>{columns.map((column, index) => <td key={index}><b>{column}</b></td>)}</tr>
@@ -37,8 +38,8 @@ const TablePage = () => {
                 }
                 </tbody>
             </table>
-        </React.Fragment>
+        </Container>
     )
 }
 
-export default TablePage
+export default TableView

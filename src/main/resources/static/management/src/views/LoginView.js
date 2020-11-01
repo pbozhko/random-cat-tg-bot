@@ -1,15 +1,15 @@
 import React, {useState} from 'react'
 import {Redirect, useLocation} from 'react-router-dom'
 
-import {Button, Col, Form, Image, Row} from 'react-bootstrap'
+import {Button, Col, Container, Form, Image, Row} from 'react-bootstrap'
 
 import LOGO from '../../assets/img/logo.png'
-import {fakeAuth} from '../view/Login'
+import {fakeAuth} from '../auth'
 
-const LoginPage = () => {
+const LoginView = () => {
 
     const { state } = useLocation()
-    const { from } = state || { from: { pathname: "/photos" } }
+    const { from } = state || { from: { pathname: "/" } }
     const [redirectToReferrer, setRedirectToReferrer] = useState(false)
 
     const login = (e) => {
@@ -24,7 +24,7 @@ const LoginPage = () => {
     }
 
     return (
-        <React.Fragment>
+        <Container fluid>
             <Row>
                 <Col lg={{ span: 2, offset: 5 }} md={{ span: 4, offset: 4 }} xs={{ span: 6, offset: 3 }}>
                     <Image src={LOGO} fluid/>
@@ -47,8 +47,8 @@ const LoginPage = () => {
                     </Form>
                 </Col>
             </Row>
-        </React.Fragment>
+        </Container>
     )
 }
 
-export default LoginPage
+export default LoginView

@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import {Redirect, Route, useLocation} from "react-router-dom"
-import {fakeAuth} from './Login'
+import {fakeAuth} from '../auth'
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
 

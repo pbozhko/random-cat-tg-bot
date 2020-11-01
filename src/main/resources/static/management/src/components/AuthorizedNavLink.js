@@ -1,15 +1,15 @@
 import React from "react"
 import {Link} from "react-router-dom"
-import {fakeAuth} from '../view/Login'
 import {Nav} from 'react-bootstrap'
+import {fakeAuth} from '../auth'
 
-const UnauthorizedLink = ({ ...rest }) => {
+const AuthorizedNavLink = ({ ...rest }) => {
 
     return (
-        fakeAuth.isAuthenticated !== true ?
+        fakeAuth.isAuthenticated === true ?
             <Nav.Link as={Link} {...rest}/> :
             <React.Fragment/>
     )
 }
 
-export default UnauthorizedLink
+export default AuthorizedNavLink

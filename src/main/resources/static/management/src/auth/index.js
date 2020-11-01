@@ -3,5 +3,8 @@ export const fakeAuth = {
     authenticate(cb) {
         this.isAuthenticated = true
         cb()
+    },
+    logout() {
+        this.isAuthenticated = false
     }
 }

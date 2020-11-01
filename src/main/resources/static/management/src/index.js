@@ -4,13 +4,13 @@ import {Provider} from 'react-redux'
 
 import store from './store'
 
-import App from './view/App'
+import AppView from './views/AppView'
 import {BrowserRouter} from 'react-router-dom'
 
 render(
     <BrowserRouter>
         <Provider store={store}>
-            <App/>
+            <AppView/>
         </Provider>
     </BrowserRouter>,
     document.getElementById('root')
