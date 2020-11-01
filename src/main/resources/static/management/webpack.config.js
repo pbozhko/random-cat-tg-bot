@@ -7,10 +7,7 @@ module.exports = {
         filename: 'bundle.js',
     },
     resolve: {
-        modules: [path.join(__dirname, 'src'), 'node_modules'],
-        alias: {
-            react: path.join(__dirname, 'node_modules', 'react'),
-        },
+        modules: [path.join(__dirname, 'src'), 'node_modules']
     },
     module: {
         rules: [
@@ -43,4 +40,7 @@ module.exports = {
             template: './src/index.html',
         }),
     ],
+    devServer: {
+        historyApiFallback: true
+    }
 };
