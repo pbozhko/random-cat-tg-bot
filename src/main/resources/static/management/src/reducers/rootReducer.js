@@ -1,14 +1,8 @@
-import initialState from '../initialState'
+import {combineReducers} from 'redux'
+import photosReducer from './photosReducer'
 
-const rootReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case 'SORT':
-            return {
-                sortedRules: action.payload
-            }
-        default:
-            return state
-    }
-}
+const rootReducer = combineReducers({
+    photos: photosReducer
+})
 
 export default rootReducer

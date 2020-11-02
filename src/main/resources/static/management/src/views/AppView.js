@@ -4,8 +4,7 @@ import {Redirect, Route, Switch, useLocation} from 'react-router-dom'
 
 import LoginView from './LoginView'
 import PhotosView from './PhotosView'
-import PrivateRoute from '../components/PrivateRoute'
-import TableView from './TableView'
+import AuthorizedRoute from '../components/AuthorizedRoute'
 import AuthorizedNavLink from '../components/AuthorizedNavLink'
 import HomeView from './HomeView'
 import PublicNavLink from '../components/PublicNavLink'
@@ -13,6 +12,7 @@ import UnauthorizedNavLink from '../components/UnauthorizedNavLink'
 import NotFoundView from './NotFoundView'
 import AccountsView from './AccountsView'
 import LogoutView from './LogoutView'
+import UnauthorizedRoute from '../components/UnauthorizedRoute'
 
 const AppView = () => {
 
@@ -27,7 +27,6 @@ const AppView = () => {
                         <PublicNavLink to="/">Главная</PublicNavLink>
                         <AuthorizedNavLink to="/photos">Фотографии</AuthorizedNavLink>
                         <AuthorizedNavLink to="/accounts">Аккаунты</AuthorizedNavLink>
-                        <AuthorizedNavLink to="/table">Табличка</AuthorizedNavLink>
                     </Nav>
                     <Nav>
                         <UnauthorizedNavLink to="/login">Войти</UnauthorizedNavLink>
@@ -39,11 +38,10 @@ const AppView = () => {
                 <Switch>
                     <Redirect from="/:url*(/+)" to={pathname.slice(0, -1)}/>
                     <Route exact path="/" component={HomeView}/>
-                    <Route exact path="/login" component={LoginView}/>
-                    <Route exact path="/photos" component={PhotosView}/>
-                    <Route exact path="/accounts" component={AccountsView}/>
-                    <PrivateRoute exact path="/table" component={TableView}/>
-                    <PrivateRoute exact path="/logout" component={LogoutView}/>
+                    <UnauthorizedRoute exact path="/login" component={LoginView}/>
+                    <AuthorizedRoute exact path="/photos" component={PhotosView}/>
+                    <AuthorizedRoute exact path="/accounts" component={AccountsView}/>
+                    <AuthorizedRoute exact path="/logout" component={LogoutView}/>
                     <Route component={NotFoundView}/>
                 </Switch>
             </Jumbotron>

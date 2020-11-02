@@ -4,7 +4,8 @@ const HtmlWebPackPlugin = require('html-webpack-plugin')
 module.exports = {
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: 'bundle.js',
+        publicPath: '/',
+        filename: '[name].[chunkhash].js',
     },
     resolve: {
         modules: [path.join(__dirname, 'src'), 'node_modules']
@@ -37,10 +38,11 @@ module.exports = {
     },
     plugins: [
         new HtmlWebPackPlugin({
-            template: './src/index.html',
+            template: './src/public/index.html',
         }),
     ],
     devServer: {
+        contentBase: './src/public',
         historyApiFallback: true
     }
 }

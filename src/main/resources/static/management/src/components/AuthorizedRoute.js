@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import {Redirect, Route, useLocation} from "react-router-dom"
 import {fakeAuth} from '../auth'
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const AuthorizedRoute = ({ component: Component, ...rest }) => {
 
     return (
         <Route {...rest}>
@@ -15,4 +15,4 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     )
 }
 
-export default PrivateRoute
+export default AuthorizedRoute
